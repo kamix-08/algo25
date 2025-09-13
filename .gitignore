@@ -1,5 +1,7 @@
 *.exe
+
 .DS_Store
+.vscode
+
 node_modules
 .venv
-.vscode

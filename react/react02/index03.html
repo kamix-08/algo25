@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cw03</title>
+
+    <script crossorigin src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function FoodList() {
+            const [item, setItem] = React.useState('kurtka')
+
+            // z jakiegoś powodu nie można zrobić `let` wewnątrz `onButtonClick`
+            let current = item
+
+            const onButtonClick = _ => {
+                const items = ['tshirt', 'czapka', 'buty', 'kurtka']
+
+                while(current == item) {
+                    current = items[Math.floor(Math.random() * items.length)]
+                }
+
+                setItem(current)
+            }
+
+            return (
+                <>
+                    <h1>Parent component</h1>
+                    <button onClick={onButtonClick}>wylosuj dla wszystkich</button>
+
+                    <div>
+                        <Food food={item} />
+                        <Food food={item} />
+                        <Food food={item} />
+                    </div>
+                </>
+            )
+        }
+
+        function Food(props) {
+            return (
+                <>
+                    <h2>child component</h2>
+                    <p>{props.food}</p>
+                </>
+            )
+        }
+
+        ReactDOM.render(
+            <FoodList />,
+            document.getElementById('root')
+        )
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cw05</title>
+
+    <script crossorigin src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function Parent() {
+            const [images,   setImages]   = React.useState(['trufle', 'hamburger'])
+
+            // nie mam pojęcia jak to inaczej zrobić, niż drugim `useState`
+            const [elements, setElements] = React.useState([])
+
+            const onButtonClick = price => {
+                setImages([
+                    ...images, 
+                    price == "tanie" ? 'trufle' : 'hamburger'
+                ])
+            }
+
+            React.useEffect(_ => {
+                setElements(images.map((img, idx) => (
+                    <Child key={idx} image={img} id={idx} />
+                )))
+            }, [images])
+
+            return (
+                <>
+                    <h1>Parent component</h1>
+
+                    <button onClick={_ => onButtonClick("tanie") }>dodaj tanie </button>
+                    <button onClick={_ => onButtonClick("drogie")}>dodaj drogie</button>
+
+                    <div>
+                        {elements}
+                    </div>
+                </>
+            )
+        }
+
+        function Child(props) {
+            return (
+                <>
+                    <h2>child component</h2>
+
+                    <h3>{props.img}</h3>
+                    <img src={`./imgs/${props.image}.png`} alt={props.image}></img>
+                    <p>{props.id}</p>
+                </>
+            )
+        }
+
+        ReactDOM.render(
+            <Parent />,
+            document.getElementById('root')
+        )
+    </script>
+</body>
+
+</html>
