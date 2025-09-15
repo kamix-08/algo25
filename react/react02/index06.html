@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cw06</title>
+
+    <script crossorigin src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function Parent() {
+            return (
+                <>
+                    <Child />
+                    <Child />
+                    <Child />
+                    <Child />
+                </>
+            )
+        }
+
+        function Child() {
+            // nie mam pojęcia jak to zrobić z `useStatem` w `Parent`
+
+            // bo jakby przekazywać `style` i `setStyle` w `props`,
+            // to będzie losowało style dla wszystkich klocków na raz
+            const [style, setStyle] = React.useState({h:100, c:'#e2e2e2'})
+
+            const random = (max, min=0) => {
+                return Math.floor(Math.random() * (max - min + 1)) + min
+            }
+
+            const onButtonClick = _ => {
+                setStyle({
+                    h: random(300, 100),
+                    c: '#' + random(0xffffff).toString(16)
+                })
+            }
+
+            return (
+                <div style={{
+                    height: style.h,
+                    background: style.c
+                }}>
+
+                    <button onClick={onButtonClick}>random</button>
+
+                    <p>height = {style.h}</p>
+                    <p>background = {style.c}</p>
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <Parent />,
+            document.getElementById('root')
+        )
+    </script>
+</body>
+
+</html>

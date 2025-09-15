@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cw07</title>
+
+    <script crossorigin src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function Timer(props) {
+            const [count, setCount] = React.useState(10)
+
+            const setTimer = _ => {
+                setCount(c => c - 1)
+            }
+
+            const onButtonClick = _ => {
+                if (count != 10) return
+
+                setTimer() // żeby wartość zmieniła się od razu
+                setInterval(setTimer, 1000)
+            }
+
+            return (
+                <div style={{display: count > 0 ? "block" : "none"}}>
+                    <p>{props.id}</p>
+
+                    <button onClick={onButtonClick} disabled={count != 10}>{count == 10 ? "start" : "liczę"}</button>
+                    <p>{count}</p>
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <>
+                <Timer id={1} />
+                <Timer id={2} />
+                <Timer id={3} />
+                <Timer id={4} />
+            </>,
+            document.getElementById('root')
+        )
+    </script>
+</body>
+
+</html>
