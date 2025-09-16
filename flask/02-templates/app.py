@@ -14,7 +14,14 @@ def index():
 
 @app.route('/user/<int:id>')
 def user(id):
-    user = next((user for user in users if user['id'] == id), None)    
+    user = next((user for user in users if user['id'] == id), None)
+
+    # user = None
+    # for u in users:
+    #     if u['id'] == id:
+    #         user = u
+    #         break
+
     return render_template('user.html', user=user, title='Profil użytkownika')
 
 if __name__ == "__main__":
