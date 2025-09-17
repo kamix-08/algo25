@@ -4,11 +4,19 @@
 {% block content %}
     {% if user %}
         <h2>Profil użytkownika</h2>
-        <p><b>Imię: </b>{{ user.name }}</p>
-        <p><b>Email: </b>{{ user.email }}</p>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ user.name }}</h5>
+                <p class="card-text"><b>Email:</b> {{ user.email }}</p>
+                <a href="/" class="btn btn-primary">Powrót do strony głównej</a>
+            </div>
+        </div>
         
     {% else %}
-        <p>Nie znaleziono użytkownika</p>
+        <div class="alert alert-danger">
+            <p>Nie znaleziono użytkownika</p>
+        </div>
 
     {% endif %}
 {% endblock %}
