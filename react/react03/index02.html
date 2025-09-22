@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cw02</title>
+
+    <script crossorigin src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function MyForm() {
+            const [selected, setSelected] = React.useState([])
+
+            function onHandleSelect(data) {
+                setSelected([
+                    ...selected,
+                    data
+                ])
+            }
+
+            function onHandleSubmit() {
+                alert(JSON.stringify(selected, null, 4))
+            }
+
+            const array = [
+                {id: 0, name: "Hamlet"},
+                {id: 1, name: "Krzyzacy"},
+                {id: 2, name: "Lalka"},
+                {id: 3, name: "Proces"},
+            ]
+
+            const array2 = [
+                {id: 0, name: "Krakow"},
+                {id: 1, name: "Warszawa"},
+                {id: 2, name: "Gdansk"},
+            ]
+
+            return (
+                <>
+                    <h1>komponent MyForm</h1>
+                    <MySelect data={array } handleSelect={onHandleSelect} />
+                    <MySelect data={array2} handleSelect={onHandleSelect} />
+
+                    <input type="button" onClick={onHandleSubmit} value="send" />
+                    <p>wysłane: {JSON.stringify(selected)}</p>
+                </>
+            )
+        }
+
+        function MySelect(props) {
+            const [selectedValue, setSelectedValue] = React.useState("")
+
+            function onSelectChange(event) {
+                const val = event.target.value
+
+                props.handleSelect(val)
+                setSelectedValue(val)
+            }
+
+            return (
+                <>
+                    <h2>komponent MySelect</h2>
+
+                    <select onChange={onSelectChange}>
+                        {
+                            props.data.map((ele, idx) => (
+                                <option key={idx} value={ele.name}>{ele.name}</option>
+                            ))
+                        }
+                    </select>
+
+                    <p>wybrane z select: {selectedValue}</p>
+                </>
+            )
+        }
+
+        ReactDOM.render(
+            <>
+                <MyForm />
+                <MyForm />
+            </>,
+            document.getElementById('root')
+        )
+    </script>
+</body>
+
+</html>

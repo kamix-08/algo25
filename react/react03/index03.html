@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cw03</title>
+
+    <script crossorigin src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function MyForm() {
+            const [array, setArray] = React.useState([
+                {checked: false, value:  1},
+                {checked: true , value:  2},
+                {checked: true , value:  3},
+                {checked: true , value: 10},
+                {checked: false, value: 20},
+            ])
+
+            // `reduce` sumuje `value` elementów z `array`, które mają `checked == true`
+            const [sum, setSum] = React.useState(array.reduce((a, b) => a + (b.checked ? b.value : 0), 0))
+
+            function onHandleCheckbox(id) {
+                const ele = array[id]
+                const val = !ele.checked
+
+                const modified = array
+                modified[id].checked = val
+
+                setArray(modified)
+                setSum(s => s + ele.value * (val ? 1 : -1))
+            }
+
+            function onHandleSubmit() {
+                alert(JSON.stringify({"suma": sum}, null, 4))
+            }
+
+            return (
+                <>
+                    <h1>comp MyForm</h1>
+
+                    {
+                        array.map((ele, idx) => (
+                            <MyCheckbox key={idx} checked={ele.checked} value={ele.value} onHandle={_ => onHandleCheckbox(idx)} />
+                        ))
+                    }
+
+                    <p>sum = ${sum}</p>
+                    <input type="button" value="check sum" onClick={onHandleSubmit} />
+                </>
+            )
+        }
+
+        function MyCheckbox(props) {
+            return (
+                <>
+                    <h2>comp MyCheckbox</h2>
+
+                    <input type="checkbox" checked={props.checked} onChange={props.onHandle} />
+                    <p>${props.value}</p>
+                </>
+            )
+        }
+
+        ReactDOM.render(
+            <MyForm />,
+            document.getElementById('root')
+        )
+    </script>
+</body>
+
+</html>

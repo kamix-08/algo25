@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cw04</title>
+
+    <script crossorigin src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function MyForm() {
+            // uzycie samego `const radios = [ ... ]` daje rekurencyjny self-reference XD
+            const [radios, setRadios] = React.useState([
+                {id: 1, name: "aaa"},
+                {id: 2, name: "bbb"},
+                {id: 3, nmae: "ccc"},
+            ])
+
+            // jak by bylo `let lastId` to nie bedzie sie zmienialo, bo closures :)
+            const [lastId, setLastId] = React.useState(3)
+
+            const [radiosObjects, setRadiosObjects] = React.useState([])
+
+            React.useEffect(_ => {
+                setRadiosObjects(radios.map((ele, idx) => (
+                    <MyRadio key={ele.id} id={ele.id} name={ele.name} delete={_ => onDelete(ele.id)} />
+                )))
+            }, [radios])
+
+            function onDelete(id) {
+                setRadios(radios.filter(e => e.id != id))
+            }
+
+            function onAppend(name) {
+                setRadios([
+                    ...radios, 
+                    {id: lastId + 1, name: name}
+                ])
+
+                setLastId(l => l + 1)
+            }
+
+            return (
+                <>
+                    <h1>comp MyForm</h1>
+
+                    {
+                        ["AAA", "BBB", "CCC"].map((ele, idx) => (
+                            <div key={idx}>
+                                <input type="radio" value={ele} name="grupa" onChange={_ => onAppend(ele)} />
+                                <label>{ele}</label>
+                            </div>
+                        ))
+                    }
+
+                    {radiosObjects}
+                </>
+            )
+        }
+
+        function MyRadio(props) {
+            const [selected, setSelected] = React.useState(1)
+
+            function onOptionChange(event) {
+                setSelected(event.target.value)
+            }
+
+            return (
+                <>
+                    <h2>comp MyRadio</h2>
+
+                    <p>id: {props.id}</p>
+                    <p>wybrano: {selected}</p>
+
+                    <img src={`gfx/${props.name}.png`} alt={props.name} />
+
+                    {
+                        Array(5).fill(null).map((ele, idx) => (
+                            <div key={idx}>
+                                <input type="radio" value={idx+1} checked={selected == idx+1} onChange={onOptionChange} />
+                                <label>{idx+1}</label>
+                            </div>
+                        ))
+                    }
+
+                    <input type="button" onClick={props.delete} value="delte" />
+                </>
+            )
+        }
+
+        ReactDOM.render(
+            <MyForm />,
+            document.getElementById('root')
+        )
+    </script>
+</body>
+
+</html>
