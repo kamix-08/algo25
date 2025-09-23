@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cw05</title>
+
+    <script crossorigin src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function App() {
+            // samemu ustawilem w tej kolejnosci descending, 
+            // bo wszystkie `useEffect` robily infinite recursion for some reason
+            const [forum, setForum] = React.useState([
+                {
+                    id: 350,
+                    thread: "thread 3",
+                    comments: [
+                        { id: 18, text: "iii", date: "2001" },
+                        { id: 7, text: "hhh", date: "2000" },
+                        { id: 6, text: "ggg", date: "1999" },
+                    ]
+                },
+                {
+                    id: 247,
+                    thread: "thread 2",
+                    comments: [
+                        { id: 15, text: "fff", date: "2001" },
+                        { id: 13, text: "eee", date: "2000" },
+                        { id: 5, text: "ddd", date: "1999" },
+                    ]
+                },
+                {
+                    id: 123,
+                    thread: "thread 1",
+                    comments: [
+                        { id: 2, text: "bbb", date: "2000" },
+                        { id: 1, text: "aaa", date: "1999" },
+                    ]
+                },
+            ])
+
+            const [lastId, setLastId] = React.useState(Math.max(...forum.map(e => e.id)))
+
+            function addThread() {
+                setForum([
+                    {
+                        id: lastId+1,
+                        thread: "new thread",
+                        comments: []
+                    },
+                    ...forum
+                ])
+
+                setLastId(l => l+1)
+            }
+
+            function addComment(id, text) {
+                setForum(forum => {
+                    const arr = [...forum]
+                    const idx = arr.findIndex(e => e.id == id)
+
+                    arr[idx].comments = [
+                        {
+                            id: Math.max(...arr[idx].comments.map(e => e.id), 0)+1, 
+                            text: text,
+                            date: new Date().toLocaleDateString()
+                        }, 
+                        ...arr[idx].comments
+                    ]
+
+                    return arr
+                })
+            }
+
+            return (
+                <>
+                    <input type="button" value="add new thread" onClick={addThread} />
+
+                    {
+                        forum.map((ele, idx) => (
+                            <Thread key={idx} data={ele} comment={addComment} />
+                        ))
+                    }
+                </>
+            )
+        }
+
+        // teoretycznie nie wymagane, ale imo tak prosciej
+        function Thread(props) {
+            return (
+                <>
+                    <h2>title: {props.data.thread}</h2>
+                    <p>id: {props.data.id}</p>
+
+                    <CommentList data={props.data.comments} />
+                    <CommentForm send={text => props.comment(props.data.id, text)} />
+                </>
+            )
+        }
+
+        function CommentList(props) {
+            return (
+                <>
+                    {
+                        props.data.map((ele, idx) => (
+                            <Comment key={idx} data={ele} />
+                        ))
+                    }
+                </>
+            )
+        }
+
+        function CommentForm(props) {
+            const [status, setStatus] = React.useState("niewyslane")
+            const [date, setDate] = React.useState("")
+            const [text, setText] = React.useState("")
+
+            function onSubmit(event) {
+                setStatus("wyslano")
+                setDate(new Date().toLocaleDateString())
+
+                props.send(text)
+            }
+
+            return (
+                <>
+                    <textarea placeholder="add comment..." onChange={e => setText(e.target.value)}></textarea>
+                    <input type="button" value="send comment" onClick={onSubmit} />
+
+                    <p>status: {status}</p>
+                    <p>data: {date}</p>
+                </>
+            )
+        }
+
+        function Comment(props) {
+            return (
+                <p>{props.data.id}, {props.data.text}, {props.data.date}</p>
+            )
+        }
+
+        ReactDOM.render(
+            <App />,
+            document.getElementById('root')
+        )
+    </script>
+</body>
+
+</html>
