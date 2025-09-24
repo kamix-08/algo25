@@ -23,7 +23,7 @@ def login():
     login_form = LoginForm()
     if login_form.validate_on_submit():
         if login_form.username.data == VALID_USERNAME and login_form.password.data == VALID_PASSWORD:
-            session['username'] = login_form.username.data
+            session['user'] = login_form.username.data
             flash('Zalogowano poprawnie', 'success')
             return redirect(url_for('dashboard'))
 
@@ -33,10 +33,17 @@ def login():
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html', title='Dashboard')
+    user = session.get('user')
+    if not user:
+        flash('Musisz się zalogować, żeby zobaczyć tę stronę', 'warning')
+        return redirect(url_for('login'))
+    
+    return render_template('dashboard.html', title='Dashboard', user=user)
 
 @app.route('/logout')
 def logout():
+    session.pop('user', None)
+    flash('Wylogowano poprawnie', 'success')
     return redirect(url_for('login'))
 
 if __name__ == '__main__':
