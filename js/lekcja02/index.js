@@ -7,8 +7,6 @@ app.use((req, res, next) => {
     next()
 })
 
-app.use(express.static('static'))
-
 app.use((req, res, next) => {
     if (Math.floor(Math.random() * 10) < 5) {
         res.sendStatus(403)
@@ -18,18 +16,8 @@ app.use((req, res, next) => {
     next()
 })
 
-app.get('/', (req, res) => {
-  res.sendFile('index.html', {root: `${__dirname}/public`})
-})
-
-app.get('/sub1', (req, res) => {
-  res.sendFile('sub1.html', {root: `${__dirname}/public/sub`})
-})
-
-app.get('/sub2', (req, res) => {
-  res.sendFile('sub2.html', {root: `${__dirname}/public/sub`})
-})
+app.use(express.static('public'))
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  	console.log(`Example app listening on port ${port}`)
 })
