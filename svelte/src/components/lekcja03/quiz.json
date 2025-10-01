@@ -1,0 +1,60 @@
+[
+    {
+        "question": "What is the output of 2 + 2?",
+        "answers": ["3", "4", "5"],
+        "correct": "4"
+    },
+    {
+        "question": "Which data structure uses FIFO order?",
+        "answers": ["Stack", "Queue", "Tree"],
+        "correct": "Queue"
+    },
+    {
+        "question": "What is the time complexity of binary search?",
+        "answers": ["O(n)", "O(log n)", "O(n^2)"],
+        "correct": "O(log n)"
+    },
+    {
+        "question": "Which symbol is used for comments in Python?",
+        "answers": ["//", "#", "<!--"],
+        "correct": "#"
+    },
+    {
+        "question": "What does HTML stand for?",
+        "answers": [
+            "Hyper Trainer Marking Language",
+            "Hyper Text Markup Language",
+            "Hyper Text Markdown Language"
+        ],
+        "correct": "Hyper Text Markup Language"
+    },
+    {
+        "question": "Which of these is a JavaScript framework?",
+        "answers": ["Django", "React", "Laravel"],
+        "correct": "React"
+    },
+    {
+        "question": "What is the value of Boolean(0) in JavaScript?",
+        "answers": ["true", "false", "undefined"],
+        "correct": "false"
+    },
+    {
+        "question": "Which sorting algorithm is generally fastest for large datasets?",
+        "answers": ["Bubble Sort", "Quick Sort", "Selection Sort"],
+        "correct": "Quick Sort"
+    },
+    {
+        "question": "What does CSS stand for?",
+        "answers": [
+            "Cascading Style Sheets",
+            "Computer Style Sheets",
+            "Creative Style System"
+        ],
+        "correct": "Cascading Style Sheets"
+    },
+    {
+        "question": "Which keyword is used to declare a constant in JavaScript?",
+        "answers": ["let", "var", "const"],
+        "correct": "const"
+    }
+]
