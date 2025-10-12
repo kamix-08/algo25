@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cw10</title>
+
+    <script crossorigin src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const items = [
+            {
+                "id": 1,
+                "product_url": "https://cdn.x-kom.pl/i/setup/images/prod/big/2400x2000,,2023/9/pr_2023_9_11_8_7_35_680_09.jpg",
+                "title": "Gray Sweatshirt",
+                "slogan": "The top hooded sweatshirt",
+
+                "description": "Unless you live in a nudist colony, there are moments when the chill you feel demands that you put on something warm, and for those times, there's nothing better than this sharp Fantastic hoodie. ",
+                "stars": 1,
+                "category": "Apparel",
+                "img_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Star_full.svg/216px-Star_full.svg.png",
+                "price": 29.99
+            },
+            {
+                "id": 2,
+                "product_url": "https://cdn.x-kom.pl/i/setup/images/prod/big/2400x2000,,2023/9/pr_2023_9_11_8_7_35_680_09.jpg",
+                "title": "Coffee Mug",
+                "slogan": "Keep your coffee hot!",
+
+                "description": "A mug is a type of cup used for drinking hot beverages, such as coffee, tea, hot chocolate or soup. Mugs usually have handles, and hold a larger amount of fluid than other types of cup. Usually a mug holds approximately 12 US fluid ounces (350 ml) of liquid; double a tea cup. ",
+                "stars": 2,
+                "category": "Kitchen",
+                "img_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Star_full.svg/216px-Star_full.svg.png",
+                "price": 12.5
+            },
+            {
+                "id": 3,
+                "product_url": "https://cdn.x-kom.pl/i/setup/images/prod/big/2400x2000,,2024/1/pr_2024_1_24_12_41_5_380_01.jpg",
+                "title": "Stress Ball",
+                "slogan": "Squeeze your stress away",
+
+                "description": "The moment life piles more onto your already heaping plate and you start feeling hopelessly overwhelmed, take a stress ball in hand and squeeze as hard as you can.",
+                "stars": 2,
+                "category": "Swag",
+                "img_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Star_full.svg/216px-Star_full.svg.png",
+                "price": 5.0
+            },
+            {
+                "id": 4,
+                "product_url": "https://cdn.x-kom.pl/i/setup/images/prod/big/2400x2000,,2023/9/pr_2023_9_11_8_7_35_680_09.jpg",
+                "title": "Track Jacket",
+                "slogan": "Go to the track in style!",
+
+                "description": "Crafted from ultra-soft combed cotton, this essential jacket features sporty contrast tipping and Fantastic's signature embroidered leaf.",
+                "stars": 1,
+                "category": "Apparel",
+                "img_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Star_full.svg/216px-Star_full.svg.png",
+                "price": 45.0
+            },
+            {
+                "id": 5,
+                "product_url": "https://cdn.x-kom.pl/i/setup/images/prod/big/2400x2000,,2024/1/pr_2024_1_24_12_41_5_380_01.jpg",
+                "title": "Women's T-shirt",
+                "slogan": "Fantastic shirt in-style",
+
+                "description": "Crafted from ultra-soft combed cotton, this essential t-shirt features sporty contrast tipping and Fantastic's signature leaf.",
+                "stars": 2,
+                "category": "Apparel",
+                "img_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Star_full.svg/216px-Star_full.svg.png",
+                "price": 45.0
+            },
+            {
+                "id": 6,
+                "product_url": "https://cdn.x-kom.pl/i/setup/images/prod/big/2400x2000,,2023/9/pr_2023_9_11_8_7_35_680_09.jpg",
+                "title": "Brown Bag",
+                "slogan": "Keep extra items here",
+
+                "description": "Let your style speak for itself with this chic brown carry-all bag. Featuring a nylon exterior with solid contrast trim, brown in color, and Fantastic logo",
+                "stars": 1,
+                "category": "Swag",
+                "img_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Star_full.svg/216px-Star_full.svg.png",
+                "price": 22.22
+            },
+            {
+                "id": 7,
+                "product_url": "https://cdn.x-kom.pl/i/setup/images/prod/big/2400x2000,,2023/9/pr_2023_9_11_8_7_35_680_09.jpg",
+                "title": "Brown Tumbler",
+                "slogan": "Bring your coffee to go",
+
+                "description": "The Fantastic Insulated Travel Tumbler is smartly designed to maintain temperatures and go anywhere. Dual wall construction will keep your beverages hot or cold for hours and a slide lock lid helps minimize spills.",
+                "stars": 4,
+                "category": "Kitchen",
+                "img_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Star_full.svg/216px-Star_full.svg.png",
+                "price": 90
+            },
+            {
+                "id": 8,
+                "product_url": "https://cdn.x-kom.pl/i/setup/images/prod/big/2400x2000,,2024/1/pr_2024_1_24_12_41_5_380_01.jpg",
+                "title": "Pen (Green)",
+                "slogan": "The only pen you need",
+
+                "description": "Erase and rewrite repeatedly without damaging documents. The needlepoint tip creates clear precise lines and the thermo-sensitive gel ink formula disappears with erasing friction.",
+                "stars": 5,
+                "category": "Office",
+                "img_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Star_full.svg/216px-Star_full.svg.png",
+                "price": 2.0
+            }
+        ]
+
+        const List = (props) => {
+            return (
+                <>
+                    {
+                        props.data.map((ele, idx) => (
+                            <Product data={ ele } key={ idx } />
+                        ))
+                    }
+                </>
+            )
+        }
+
+        const Product = (props) => {
+            const formatPrice = (price) => {
+                price += ''
+                const idx = price.indexOf('.')
+
+                if      (idx == -1)               price += ".00"
+                else if (idx == price.length - 2) price += "0"
+
+                return '$' + price
+            }
+
+            return (
+                <>
+                    <p>{ formatPrice(props.data.price) }</p>
+                    <h1>{ props.data.title }</h1>
+                    <h2>{ props.data.slogan }</h2>
+                    <img src={ props.data.product_url } alt={ props.data.title } width="200" />
+
+                    <Stars count={ props.data.stars } img={ props.data.img_url } />
+                </>
+            )
+        }
+
+        const Stars = (props) => {
+            return (
+                <>
+                    {
+                        Array(props.count).fill(0).map((_, idx) => (
+                            <img src={ props.img } alt="Star" key={ idx } width="50" />
+                        ))
+                    }
+                </>
+            )
+        }
+
+        ReactDOM.render(
+            <List data={ items } />,
+            document.getElementById('root')
+        )
+    </script>
+</body>
+</html>

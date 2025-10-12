@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cw09</title>
+
+    <script crossorigin src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        .div { border: 2px dashed; display: flex; padding: 2px; margin: 2px; width: fit-content; color: green; }
+
+        .square    { border-color: green ; flex-direction: column; }
+        .column    { border-color: violet; flex-direction: column; }
+        .table     { border-color: yellow; flex-direction: row   ; }
+        .container { border-color: red   ; flex-direction: row   ; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const Square = () => {
+            return (
+                <div className="div square">
+                    <p>React comp</p>
+                </div>
+            )
+        }
+
+        const Column = () => {
+            return (
+                <div className="div column">
+                    <Square />
+                    <Square />
+                    <Square />
+                </div>
+            )
+        }
+
+        const Table = () => {
+            return (
+                <div className="div table">
+                    <Column />
+                    <Column />
+                    <Column />
+                </div>
+            )
+        }
+
+        const Container = () => {
+            return (
+                <div className="div container">
+                    <Table />
+                    <Table />
+                    <Table />
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <Container />,
+            document.getElementById('root')
+        )
+    </script>
+</body>
+</html>

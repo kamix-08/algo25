@@ -8,21 +8,6 @@
     <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
     <script crossorigin src="https://unpkg.com/@babel/standalone@7.10.3/babel.min.js"></script>
-
-    <style>
-        .wrap {
-            display: flex;
-            border: 2px dashed red;
-        }
-
-        .title {
-            color: red;
-        }
-
-        .author {
-            color: blue;
-        }
-    </style>
 </head>
 <body>
     <div id="root"></div>
@@ -38,76 +23,60 @@
             { id: 7, title: "bhagawadgita", img: "bhagawadgita" }
         ]
 
-        // pewnie da się to zrobić lepiej
-        // ale jest na to za późno xD
-        function uppercaseFirstChar(str) {
-            const s = str.split('')
-            s[0] = s[0].toUpperCase()
-            return s.join('')
-        }
-
-        function Image(props) {
-            // nie wiem o co chodzi z 
-            // "do komponentu Image dodaj funkcje ..."
-            // więc po prostu wrzucam je tutaj.
-            // poza komponentem też by działało
-
-            function makeImageTitle() {
-                // ja to rozumiem tak, że wszystkie słowa
-                // dłuższe niż 1 litera mają być z dużej
-
-                return props.title
-                    .split(' ')                 // podział na słowa
-                    .map(w => w.length > 1  
-                        ? uppercaseFirstChar(w) // uppercase dla dłuższych niż 1
-                        : w)                    // bez zmian dla pozostałych
-                    .join(' ')                  // łączenie z powrotem w stringa
-            }
-
-            function makeImageAuthor() {
-                // duża litera dla każdej części imo
-
-                if (!props.author)
-                    return "Nieznany"
-
-                return props.author
-                    .split(' ')
-                    .map(w => uppercaseFirstChar(w))
-                    .join(' ')
-            }
-
-            function makeImageUrl() {
-                return `./gfx/${props.img}.jpg`
-            }
-
-            return (
-                <div className="wrap">
-                    <img src={makeImageUrl()}></img>
-
-                    <div className="title">{makeImageTitle()}</div>
-                    <div className="author">{makeImageAuthor()}</div>
-                </div>
-            )
-        }
-
-        function ImageList(props) {
-            const objects = props.data.map((ele, idx) => (
-                <Image key={idx} title={ele.title} author={ele.author} img={ele.img} />
-            ))
-
+        const ImageList = (props) => {
             return (
                 <>
-                    {objects}
+                    {
+                        props.data.map((ele, idx) => (
+                            <Image data={ ele } key={ idx } />
+                        ))
+                    }
                 </>
             )
         }
 
-        // jak wrzuciłem react18 to render nie działał, więc jest react17
-        // nie pamiętam jak to było rozwiązanie u ciebie, ale to raczej szybki fix
+        const Image = (props) => {
+            console.log(props)
+
+            const capitalize = (text, min_len = 0, fallback = "Nieznany") => {
+                if (text == undefined)
+                    return fallback
+
+                return text
+                        .split(' ')
+                        .map(w => {
+                            if (w.length > min_len)
+                                return w.charAt(0).toUpperCase() + w.slice(1)
+                            else
+                                return w
+                        })
+                        .join(' ')
+            }
+            
+            const makeImageTitle = (title) => {
+                return capitalize(title, 1)
+            }
+
+            const makeImageAuthor = (author) => {
+                return capitalize(author)
+            }
+
+            const makeImageUrl = (image) => {
+                return `/gfx/${image}.png`
+            }
+
+            return (
+                <>
+                    <img src={ makeImageUrl(props.data.img) } alt={ makeImageTitle(props.data.title) } />
+                    
+                    <h1>{ makeImageTitle(props.data.title) }</h1>
+                    <h2>{ makeImageAuthor(props.data.author) }</h2>
+                </>
+            )
+        }
+        
         ReactDOM.render(
-            <>
-                <ImageList data={imagesData} />
-            </>,
+            <ImageList data={ imagesData } />,
             document.getElementById('root')
         )
     </script>
