@@ -1,0 +1,60 @@
+[
+    {
+        "question": "What is the output of 3 * 3 in JavaScript?",
+        "answers": ["6", "9", "12"],
+        "correct": "9"
+    },
+    {
+        "question": "Which data structure uses LIFO order?",
+        "answers": ["Queue", "Stack", "Graph"],
+        "correct": "Stack"
+    },
+    {
+        "question": "What is the time complexity of linear search?",
+        "answers": ["O(1)", "O(n)", "O(log n)"],
+        "correct": "O(n)"
+    },
+    {
+        "question": "Which symbol is used for comments in JavaScript?",
+        "answers": ["//", "#", "/* */"],
+        "correct": "//"
+    },
+    {
+        "question": "What does JSON stand for?",
+        "answers": [
+            "JavaScript Object Notation",
+            "Java Syntax Object Notation",
+            "JavaScript Online Notation"
+        ],
+        "correct": "JavaScript Object Notation"
+    },
+    {
+        "question": "Which of these is a Python framework?",
+        "answers": ["React", "Django", "Vue"],
+        "correct": "Django"
+    },
+    {
+        "question": "What is the value of null in JavaScript?",
+        "answers": ["undefined", "null", "0"],
+        "correct": "null"
+    },
+    {
+        "question": "Which sorting algorithm has the best average-case time complexity?",
+        "answers": ["Merge Sort", "Bubble Sort", "Insertion Sort"],
+        "correct": "Merge Sort"
+    },
+    {
+        "question": "What does SQL stand for?",
+        "answers": [
+            "Structured Query Language",
+            "Simple Query Language",
+            "Standard Query Language"
+        ],
+        "correct": "Structured Query Language"
+    },
+    {
+        "question": "Which keyword is used to define a function in Python?",
+        "answers": ["function", "def", "func"],
+        "correct": "def"
+    }
+]

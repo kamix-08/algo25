@@ -1,12 +1,22 @@
 <script>
     import questions from "./quiz.json"
-
-    const shuffle = (arr) => arr.toSorted((a, b) => Math.random() > 0.5)
+    
+    const shuffle = (arr) => arr.toSorted((a, b) => Math.random() - 0.5)
+    
+    let data = $state(questions)
+    const _data = $derived(shuffle(data))
 
     async function loadFromFile(e) {
         const file = await e.target.files[0]
-        const text = file.text
-        // todo: parse json
+        
+        const fr = new FileReader()
+        fr.onload = () => { 
+            data = JSON.parse(fr.result + '')
+            cur = 0
+            cor = 0
+        }
+
+        fr.readAsText(file)
     }
 
     let selected  = $state(null)
@@ -35,17 +45,18 @@
     let cur = $state(0)
     let cor = $state(0)
 
-    const question = $derived(questions[cur % questions.length])
+    const question = $derived(_data[cur % _data.length])
     const answers  = $derived(shuffle(question.answers))
 </script>
 
 <main class="flex flex-col items-center mt-16 font-sans text-gray-800">
-    <h1 class="text-3xl font-bold mb-6">Quiz</h1>
+    <h1 class="text-3xl font-bold">Quiz</h1>
+    <input type="file" onchange={loadFromFile} class="mb-6 mt-4 border border-gray-300 rounded-lg p-3 font-medium transition-colors duration-150 hover:bg-gray-200"> 
     
     <ol class="w-full max-w-md px-4">
-        {#if cur < questions.length }
+        {#if cur < _data.length }
             <div class="mb-4">
-                <h3 class="text-lg font-semibold">{ question.question }</h3>
+                <h3 class="text-lg font-semibold">#{ cur + 1 }: { question.question }</h3>
             </div>
 
             {#each answers as _, id }
@@ -62,7 +73,7 @@
             {/each}
         {:else}
             <h1 class="text-2xl font-bold text-center">Twój wynik:</h1>
-            <h3 class="text-lg font-medium text-center mt-2">{ cor }/{questions.length} punktów!</h3>
+            <h3 class="text-lg font-medium text-center mt-2">{ cor }/{ _data.length } punktów!</h3>
         {/if}
     </ol>
 </main>
