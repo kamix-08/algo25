@@ -1,3 +1,6 @@
 flask
 jinja2
 flask-BS4
+flask-Login
+flask-SQLAlchemy
+flask-Bcrypt
