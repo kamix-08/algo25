@@ -1,0 +1,30 @@
+.Tile { 
+  width: 20px; height: 20px;
+}
+
+.Board, .Board2 {
+  display: flex;
+  flex-direction: column;
+
+  &>h1 { margin-bottom: 5px; }
+  &>h3 { margin-top: 0; }
+}
+
+.board-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+
+  &>div {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.radios > input {
+  margin-right: 25px;
+}
