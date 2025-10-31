@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cw08</title>
+
+    <script crossorigin src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const Timer = () => {
+            const [timer, setTimer] = React.useState(15)
+            const [running, seRunning] = React.useState(false)
+            const [intervalId, setIntervalId] = React.useState(null)
+            
+            const deleteTimer = () => {
+                clearInterval(intervalId)
+            }
+
+            const updateTimer = () => {
+                setTimer(t => {
+                    if (t <= 1)
+                       deleteTimer()
+
+                    return t - 1
+                })
+            }
+
+            const onButtonClick = () => {
+                if (!running) {
+                    updateTimer()
+                    setIntervalId(setInterval(updateTimer, 1000))
+                } else {
+                    deleteTimer()
+                }
+
+                seRunning(r => !r)
+            }
+
+            const formatNumber = (n) => {
+                return n < 10 ? '0' + n : n + ''
+            }
+
+            return (
+                <div style={{ display: timer > 0 ? "block" : "none" }}>
+                    <p>{ formatNumber(Math.floor(timer / 60)) }:{ formatNumber(timer % 60) }</p>
+
+                    <button 
+                        onClick={ onButtonClick }>
+                        { running ? "stop" : "start" }
+                    </button>
+                </div>
+            )
+        }
+
+        const TimerList = (props) => {
+            return (
+                <>
+                    {
+                        Array(props.count).fill(0).map((_, idx) => (
+                            <Timer key={idx} />
+                        ))
+                    }
+                </>
+            )
+        }
+
+        ReactDOM.render(
+            <TimerList count={3} />,
+            document.getElementById('root')
+        )
+    </script>
+</body>
+</html>

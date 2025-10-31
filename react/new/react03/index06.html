@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cw04</title>
+
+    <script crossorigin src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const MyForm = () => {
+            const [selected, setSelected] = React.useState("REACT")
+
+            const [comps, setComps] = React.useState([
+                { id: 1, name: "REACT" , rating: 3 },
+                { id: 2, name: "NODEJS", rating: 5 },
+                { id: 3, name: "HTML"  , rating: 1 },
+                { id: 4, name: "JS"    , rating: 4 },
+            ])
+
+            const handleSubmit = (e) => {
+                e.preventDefault()
+                setComps(c => [
+                    ...c,
+                    {
+                        id: c.reduce((a, b) => Math.max(a, b.id), -1) + 1,
+                        name: selected,
+                        rating: 1
+                    }
+                ])
+            }
+            
+            const updateRating = (idx, r) => {
+                setComps(arr => {
+                    const newArr = [...arr]
+
+                    const id = newArr.findIndex(e => e.id == idx)
+                    newArr[id].rating = r
+
+                    return newArr
+                })
+            }
+
+            const remove = (idx) => {
+                setComps(comps.filter(e => e.id != idx))
+            }
+
+            return (
+                <>
+                    <p>Średnia ocena: { Math.round(comps.reduce((a,b) => a + b.rating, 0) / Math.max(comps.length, 1) * 100) / 100 } / 5</p>
+
+                    <form onSubmit={handleSubmit}>
+                        <input type="radio" name="tech" value="REACT" id="react" onChange={() => setSelected("REACT")} checked={selected == "REACT"}></input>
+                        <label htmlFor="react">REACT</label>
+                        
+                        <input type="radio" name="tech" value="NODEJS" id="node" onChange={() => setSelected("NODEJS")} checked={selected == "NODEJS"}></input>
+                        <label htmlFor="node">NODEJS</label>
+                        
+                        <input type="radio" name="tech" value="HTML" id="html" onChange={() => setSelected("HTML")} checked={selected == "HTML"}></input>
+                        <label htmlFor="html">HTML</label>
+                        
+                        <input type="radio" name="tech" value="JS" id="js" onChange={() => setSelected("JS")} checked={selected == "JS"}></input>
+                        <label htmlFor="js">JS</label>
+
+                        <input type="submit" value={`Dodaj ${selected}`}></input>
+                    </form>
+
+                    {
+                        comps.map((ele, idx) => (
+                            <MyImage data={ele} key={ele.id} update={(r) => updateRating(ele.id, r)} remove={() => remove(ele.id)} />
+                        ))
+                    }
+                </>
+            )
+        }
+
+        const MyImage = (props) => {
+            const [rating, setRating] = React.useState(props.data.rating)
+
+            const updateRating = (r) => {
+                setRating(r)
+                props.update(r)
+            }
+            
+            return (
+                <>
+                    <p>Ocena: { rating } / 5</p>
+
+                    <img src={`https://api.dicebear.com/8.x/initials/svg?seed=${props.data.name}`} alt={props.data.name} height="100"></img>
+
+                    <>
+                        <input checked={rating == 1} type="radio" name={`rating-${props.data.id}`} id={`rb-1-${props.data.id}`} value="1" onChange={() => updateRating(1)}></input>
+                        <label htmlFor={`rb-1-${props.data.id}`}>1</label>
+                        
+                        <input checked={rating == 2} type="radio" name={`rating-${props.data.id}`} id={`rb-2-${props.data.id}`} value="2" onChange={() => updateRating(2)}></input>
+                        <label htmlFor={`rb-2-${props.data.id}`}>2</label>
+                        
+                        <input checked={rating == 3} type="radio" name={`rating-${props.data.id}`} id={`rb-3-${props.data.id}`} value="3" onChange={() => updateRating(3)}></input>
+                        <label htmlFor={`rb-3-${props.data.id}`}>3</label>
+                        
+                        <input checked={rating == 4} type="radio" name={`rating-${props.data.id}`} id={`rb-4-${props.data.id}`} value="4" onChange={() => updateRating(4)}></input>
+                        <label htmlFor={`rb-4-${props.data.id}`}>4</label>
+                        
+                        <input checked={rating == 5} type="radio" name={`rating-${props.data.id}`} id={`rb-5-${props.data.id}`} value="5" onChange={() => updateRating(5)}></input>
+                        <label htmlFor={`rb-5-${props.data.id}`}>5</label>
+                    </>
+
+                    <button onClick={props.remove}>delete</button>
+                </>
+            )
+        }
+
+        ReactDOM.render(
+            <MyForm />,
+            document.getElementById('root')
+        )
+    </script>
+</body>
+</html>

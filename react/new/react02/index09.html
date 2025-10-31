@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cw09</title>
+
+    <script crossorigin src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const json = [
+            {
+                "value": "Canada Central Standard Time",
+                "abbr": "CCST",
+                "offset": -6,
+                "isdst": false,
+                "text": "(UTC-06:00) Saskatchewan",
+                "utc": [
+                    "America/Regina",
+                    "America/Swift_Current"
+                ]
+            },
+            {
+                "value": "Greenwich Standard Time",
+                "abbr": "GST",
+                "offset": 0,
+                "isdst": false,
+                "text": "(UTC) Monrovia, Reykjavik",
+                "utc": [
+                    "Africa/Abidjan",
+                    "Africa/Accra",
+                    "Africa/Bamako",
+                    "Africa/Banjul",
+                    "Africa/Bissau",
+                    "Africa/Conakry",
+                    "Africa/Dakar",
+                    "Africa/Freetown",
+                    "Africa/Lome",
+                    "Africa/Monrovia",
+                    "Africa/Nouakchott",
+                    "Africa/Ouagadougou",
+                    "Africa/Sao_Tome",
+                    "Atlantic/Reykjavik",
+                    "Atlantic/St_Helena"
+                ]
+            },
+            {
+                "value": "Central Europe Standard Time",
+                "abbr": "CEDT",
+                "offset": 2,
+                "isdst": true,
+                "text": "(UTC+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague",
+                "utc": [
+                    "Europe/Belgrade",
+                    "Europe/Bratislava",
+                    "Europe/Budapest",
+                    "Europe/Ljubljana",
+                    "Europe/Podgorica",
+                    "Europe/Prague",
+                    "Europe/Tirane"
+                ]
+            },
+            {
+                "value": "Central European Standard Time",
+                "abbr": "CEDT",
+                "offset": 2,
+                "isdst": true,
+                "text": "(UTC+01:00) Sarajevo, Skopje, Warsaw, Zagreb",
+                "utc": [
+                    "Europe/Sarajevo",
+                    "Europe/Skopje",
+                    "Europe/Warsaw",
+                    "Europe/Zagreb"
+                ]
+            },
+            {
+                "value": "E. Europe Standard Time",
+                "abbr": "EEDT",
+                "offset": 3,
+                "isdst": true,
+                "text": "(UTC+02:00) E. Europe",
+                "utc": [
+                    "Asia/Nicosia",
+                    "Europe/Athens",
+                    "Europe/Bucharest",
+                    "Europe/Chisinau",
+                    "Europe/Helsinki",
+                    "Europe/Kiev",
+                    "Europe/Mariehamn",
+                    "Europe/Nicosia",
+                    "Europe/Riga",
+                    "Europe/Sofia",
+                    "Europe/Tallinn",
+                    "Europe/Uzhgorod",
+                    "Europe/Vilnius",
+                    "Europe/Zaporozhye"
+
+                ]
+            },
+            {
+                "value": "Turkey Standard Time",
+                "abbr": "TDT",
+                "offset": 3,
+                "isdst": false,
+                "text": "(UTC+03:00) Istanbul",
+                "utc": [
+                    "Europe/Istanbul"
+                ]
+            },
+            {
+                "value": "Israel Standard Time",
+                "abbr": "JDT",
+                "offset": 3,
+                "isdst": true,
+                "text": "(UTC+02:00) Jerusalem",
+                "utc": [
+                    "Asia/Jerusalem"
+                ]
+            },
+
+            {
+                "value": "Kaliningrad Standard Time",
+                "abbr": "KST",
+                "offset": 3,
+                "isdst": false,
+                "text": "(UTC+03:00) Kaliningrad, Minsk",
+                "utc": [
+                    "Europe/Kaliningrad",
+                    "Europe/Minsk"
+                ]
+            },
+            {
+                "value": "Moscow Standard Time",
+                "abbr": "MSK",
+                "offset": 3,
+                "isdst": false,
+                "text": "(UTC+03:00) Moscow, St. Petersburg, Volgograd",
+                "utc": [
+                    "Europe/Kirov",
+                    "Europe/Moscow",
+                    "Europe/Simferopol",
+                    "Europe/Volgograd"
+                ]
+            },
+            {
+                "value": "Pakistan Standard Time",
+                "abbr": "PST",
+                "offset": 5,
+                "isdst": false,
+                "text": "(UTC+05:00) Islamabad, Karachi",
+                "utc": [
+                    "Asia/Karachi"
+                ]
+            },
+            {
+                "value": "India Standard Time",
+                "abbr": "IST",
+                "offset": 5.5,
+                "isdst": false,
+                "text": "(UTC+05:30) Chennai, Kolkata, Mumbai, New Delhi",
+                "utc": [
+                    "Asia/Kolkata"
+                ]
+            },
+            {
+                "value": "Nepal Standard Time",
+                "abbr": "NST",
+                "offset": 5.75,
+                "isdst": false,
+                "text": "(UTC+05:45) Kathmandu",
+                "utc": [
+                    "Asia/Katmandu"
+                ]
+            },
+            {
+                "value": "China Standard Time",
+                "abbr": "CST",
+                "offset": 8,
+                "isdst": false,
+                "text": "(UTC+08:00) Beijing, Chongqing, Hong Kong, Urumqi",
+                "utc": [
+                    "Asia/Hong_Kong",
+                    "Asia/Macau",
+                    "Asia/Shanghai"
+                ]
+            },
+            {
+                "value": "Taipei Standard Time",
+                "abbr": "TST",
+                "offset": 8,
+                "isdst": false,
+                "text": "(UTC+08:00) Taipei",
+                "utc": [
+                    "Asia/Taipei"
+                ]
+            },
+            {
+                "value": "Tokyo Standard Time",
+                "abbr": "TST",
+                "offset": 9,
+                "isdst": false,
+                "text": "(UTC+09:00) Osaka, Sapporo, Tokyo",
+                "utc": [
+                    "Asia/Dili",
+                    "Asia/Jayapura",
+                    "Asia/Tokyo",
+                    "Etc/GMT-9",
+                    "Pacific/Palau"
+                ]
+            },
+            {
+                "value": "Korea Standard Time",
+                "abbr": "KST",
+                "offset": 9,
+                "isdst": false,
+                "text": "(UTC+09:00) Seoul",
+                "utc": [
+                    "Asia/Pyongyang",
+                    "Asia/Seoul"
+                ]
+            },
+            {
+                "value": "Vladivostok Standard Time",
+                "abbr": "VST",
+                "offset": 11,
+                "isdst": false,
+                "text": "(UTC+11:00) Vladivostok",
+                "utc": [
+                    "Asia/Sakhalin",
+                    "Asia/Ust-Nera",
+                    "Asia/Vladivostok"
+                ]
+            },
+            {
+                "value": "Kamchatka Standard Time",
+                "abbr": "KDT",
+                "offset": 13,
+                "isdst": true,
+                "text": "(UTC+12:00) Petropavlovsk-Kamchatsky - Old",
+                "utc": [
+                    "Asia/Kamchatka"
+                ]
+            },
+        ]
+
+        const Zone = (props) => {
+            const formatNumber = (n) => {
+                return n < 10 ? '0' + n : n + ''
+            }
+
+            const formatDate = () => {
+                const date = new Date()
+                date.setHours(date.getUTCHours() + props.data.offset)
+
+                return `${formatNumber(date.getHours())}:${formatNumber(date.getMinutes())}:${formatNumber(date.getSeconds())}`
+            }
+            
+            const [time, setTime] = React.useState(formatDate())
+            const [intervalId, setIntervalId] = React.useState(null)
+
+            React.useEffect(() => {
+                setIntervalId(setInterval(() => { setTime(formatDate()) }, 1000))
+                return () => { clearInterval(intervalId) }
+            }, [])
+            
+            const show = () => {
+                alert(JSON.stringify(props.data.utc, null, 4))
+            }
+
+            return (
+                <>
+                    <h2>{ props.data.value }</h2>
+                    <h1>{ time }</h1>
+
+                    <button onClick={ show }>show</button>
+                </>
+            )
+        }
+
+        const ZoneList = (props) => {
+            return (
+                <>
+                    {
+                        props.data.map((ele, idx) => (
+                            <Zone data={ele} key={idx} />
+                        ))
+                    }
+                </>
+            )
+        }
+
+        ReactDOM.render(
+            <ZoneList data={json} />,
+            document.getElementById('root')
+        )
+    </script>
+</body>
+</html>

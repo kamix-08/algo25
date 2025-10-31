@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cw07</title>
+
+    <script crossorigin src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const Timer = () => {
+            const [timer, setTimer] = React.useState(15)
+            const [intervalId, setIntervalId] = React.useState(null)
+            
+            const updateTimer = () => {
+                setTimer(t => {
+                    if (t <= 1)
+                       clearInterval(intervalId) 
+
+                    return t - 1
+                })
+            }
+
+            const onButtonClick = () => {
+                updateTimer()
+                setIntervalId(setInterval(updateTimer, 200))
+            }
+
+            const formatNumber = (n) => {
+                return n < 10 ? '0' + n : n + ''
+            }
+
+            return (
+                <div style={{ display: timer > 0 ? "block" : "none" }}>
+                    <p>{ formatNumber(Math.floor(timer / 60)) }:{ formatNumber(timer % 60) }</p>
+
+                    <button 
+                        onClick={ onButtonClick } 
+                        disabled={ timer != 15 }>
+                        { timer == 15 ? "start" : "liczę" }
+                    </button>
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div>
+                <Timer />
+                <Timer />
+                <Timer />
+                <Timer />    
+            </div>,
+            document.getElementById('root')
+        )
+    </script>
+</body>
+</html>

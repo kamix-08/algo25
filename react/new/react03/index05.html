@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cw03</title>
+
+    <script crossorigin src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const MyForm = () => {
+            const [data, setData] = React.useState([
+                { checked: false, value: 1  },
+                { checked: true,  value: 2  },
+                { checked: true,  value: 3  },
+                { checked: true,  value: 10 },
+                { checked: false, value: 20 },
+            ])
+
+            const [sum, setSum] = React.useState(15)
+
+            const update = (idx) => {
+                setData(d => {
+                    const newData = [...d]
+                    newData[idx].checked = !d[idx].checked
+
+                    setSum(s => s + d[idx].value * (newData[idx].checked ? 1 : -1))
+
+                    return newData
+                })
+            }
+
+            return (
+                <>
+                    {
+                        data.map((ele, idx) => (
+                            <MyCheckbox data={ele} key={idx} update={() => update(idx)} />
+                        ))
+                    }
+
+                    <p>sum = ${ sum }</p>
+
+                    <button onClick={() => alert(JSON.stringify({"suma": sum}, null, 4))}>check sum</button>
+                </>
+            )
+        }
+
+        const MyCheckbox = (props) => {
+            return (
+                <>
+                    <input type="checkbox" checked={props.data.checked} onChange={props.update}></input>
+                    <span>${ props.data.value }</span>
+                </>
+            )
+        }
+
+        ReactDOM.render(
+            <MyForm />,
+            document.getElementById('root')
+        )
+    </script>
+</body>
+</html>

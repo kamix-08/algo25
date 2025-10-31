@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cw08</title>
+
+    <script crossorigin src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="react-app"></div>
+
+    <script type="text/babel">
+        const imagesData = [
+            { id: 1, title: "hyperion", author: "dan simmons", img: "hyperion" },
+            { id: 2, title: "spotkanie z ramą", author: "arthur c. clarke", img: "rama" },
+            { id: 3, title: "pieśn o rolandzie", img: "roland" },
+            { id: 4, title: "silmarillion", author: "john ronald reuel tolkien", img: "silmarillion" },
+            { id: 5, title: "furia i inne opowiadania", author: "silvina ocampo", img: "furia" },
+            { id: 6, title: "trawa", author: "sheri s. tepper", img: "trawa" },
+            { id: 7, title: "bhagawadgita", img: "bhagawadgita" }
+        ]
+
+        const ImageList = () => {
+            return (
+                <Image title={imagesData[1].title} />
+            )
+        }
+
+        const Image = (props) => {
+            const makeImageTitle = (title) => {
+                const arr = Array(...title)
+                arr[0] = arr[0].toUpperCase()
+
+                arr.forEach((ele, idx) => {
+                    if (ele != " ") return
+                    if (arr[idx + 2] == " ") return
+                    arr[idx + 1] = arr[idx + 1].toUpperCase(0)
+                })
+
+                return arr.join()
+            }
+
+            const makeImageAuthor = (author) => {
+                const arr = Array(...title)
+                arr[0] = arr[0].toUpperCase()
+
+                arr.forEach((ele, idx) => {
+                    if (ele != " ") return
+                    arr[idx + 1] = arr[idx + 1].toUpperCase(0)
+                })
+
+                return arr.join()
+            }
+
+            const makeImageUrl = (url) => {
+                return `gfx/${url}.png`
+            }
+
+            return (<></>)
+        }
+
+        ReactDOM.render(
+            <ImageList />,
+            document.getElementById('react-app')
+        )
+    </script>
+</body>
+
+</html>
