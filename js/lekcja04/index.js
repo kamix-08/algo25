@@ -10,7 +10,9 @@ app.set('views', './templates')
 
 app.get('/', (req, res) => {
     res.render('home', {
-        user: 'Kamil'
+        user: 'Kamil',
+        text1: "Hello\nHi\nWelcome",
+        lines: "Welcome\nHi\nHello".split("\n")
     })
 })
 
