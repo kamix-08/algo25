@@ -4,3 +4,4 @@ flask-BS4
 flask-Login
 flask-SQLAlchemy
 flask-Bcrypt
+pandas
