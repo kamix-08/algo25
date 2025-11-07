@@ -1,0 +1,21 @@
+<ul>
+    {{#each content}}
+        <li>
+            <span style="font-weight: bold">{{ this.b }}</span>
+            <span style="color: red">{{ this.c }}</span>
+            <span style="font-style: italic">{{ this.i }}</span>
+        </li>
+    {{else}}
+        <li><b>No entries</b></li>
+    {{/each}}
+</ul>
+
+
+<form method="post">
+    <label>nick:    <input type="text" name="nick">   </label><br>
+    <label>content: <input type="text" name="content"></label>
+
+    <br><br>
+
+    <input type="submit" value="Send">
+</form>
