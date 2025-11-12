@@ -5,14 +5,25 @@ from models import Inventory
 from . import store_bp
 import pandas as pd
 
-@store_bp.route('/')
+@store_bp.route('/', methods=['GET', 'POST'])
 @login_required
 def index():
     page = request.args.get('page', 1, int)
-    per_page = request.args.get('per_page', 20, int)
-    pagination = Inventory.query.order_by(Inventory.id).paginate(page=page, per_page=per_page)
+    search = request.args.get('search', '').strip()
+    query = Inventory.query
+    
+    if search:
+        query = query.filter(
+            Inventory.name.ilike(f'%{search}')     |
+            Inventory.symbol.ilike(f"%{search}")   |
+            Inventory.brand.ilike(f"%{search}")    |
+            Inventory.model.ilike(f"%{search}")    |
+            Inventory.category.ilike(f"%{search}")
+        )
+        
+    pagination = query.order_by(Inventory.id).paginate(page=page, per_page=20)
     records = pagination.items
-    return render_template('store/index.html', title='Magazyn', records=records, pagination=pagination)
+    return render_template('store/index.html', title='Magazyn', records=records, pagination=pagination, search=search)
 
 @store_bp.route('/import', methods=['GET', 'POST']) # type: ignore
 @login_required
