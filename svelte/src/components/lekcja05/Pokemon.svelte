@@ -15,7 +15,6 @@
         fetch('https://pokeapi.co/api/v2/pokemon-species')
             .then(data => data.json())
             .then(data => {
-                console.log(data)
                 count = data.count
             })
             .then(() => {
@@ -23,9 +22,9 @@
             })
     })
 
-    function getRandom(max) {
+    function getRandom(max, min=0) {
         console.log(`get random ${max}`)
-        return Math.floor(Math.random() * (max + 1))
+        return Math.floor(Math.random() * (max + 1)) + min
     }
 
     function getPokemon(name) {
@@ -37,19 +36,24 @@
                     sprite: data.sprites.other.dream_world.front_default ?? data.sprites.front_default
                 }
             })
+            .catch(err => {
+                console.warn(err)
+                getRandomNames()
+            })
     }
 
     async function getRandomNames() {
         console.log('get random names')
 
-        names = Array(4).fill(0).map(async () => {
-            let res = await fetch(`https://pokeapi.co/api/v2/pokemon/${getRandom(count)}`)
+        Promise.all(Array(4).fill(0).map(async () => {
+            let res = await fetch(`https://pokeapi.co/api/v2/pokemon/${getRandom(count-1, 1)}`)
             let json = await res.json()
-            let name = await json.name
-            return name
-        })
-
-        getPokemon((await Promise.all(names))[getRandom(4)])
+            return json.name
+        }))
+            .then(data => {
+                names = data
+                getPokemon(names[getRandom(4)])
+            })
     }
 
     function submitAnswer(name) {
@@ -64,7 +68,7 @@
             selected = null
             correct = null
             getRandomNames()
-        })
+        }, 1000)
     }
 </script>
 
@@ -77,18 +81,19 @@
                 <h3 class="text-lg">Pytanie <span class="font-bold">{ cur }</span>/10</h3>
             </div>
 
-            <img src={pokemon.sprite} alt="pokemon">
+            <img src={pokemon.sprite} alt="pokemon" class="h-100 my-10 {selected ? '' : 'brightness-0'}">
             
             <ol class="w-full max-w-md px-4">
                 {#each names as name, id }
                     <li class="mb-3">
                         <button 
-                            class="w-full flex items-cente border border-gray-300 rounded-lg p-3 font-medium transition-colors duration-150 
-                            {correct == name ? 'bg-green-500 text-white' : (selected == name ? 'bg-red-500 text-white' : 'hover:bg-gray-200')}" 
+                            class="w-full flex items-center border border-gray-300 rounded-lg p-3 font-medium transition-colors duration-150
+                            {selected ? (name === correct ? ' bg-green-500 text-white' : name === selected ? ' bg-red-500 text-white' : '')
+                                : ' hover:bg-gray-200'}"
                             onclick={() => submitAnswer(name)} 
                             disabled={selected != null}>
                             <span class="bg-yellow-400 text-white font-bold rounded-md px-3 py-1 mr-4">{ id + 1 })</span>
-                            <span class="flex-1">{ name }</span>
+                            <span class="flex-1 capitalize">{ name.replace('-', ' ') }</span>
                         </button>
                     </li>
                 {/each}
