@@ -1,0 +1,67 @@
+body, form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    margin-bottom: 0;
+}
+
+form {
+    margin-top: 20px;
+    gap: 10px;
+
+    & :is(input[type='text'], textarea) {
+        margin-left: 20px;
+    }
+}
+
+.task {
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 10px;
+
+    & a {
+        padding-top: 10px;
+        font-weight: bold;
+    }
+}
+
+#task {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+
+    & h2 {
+        margin-bottom: 0;
+    }
+
+    & a {
+        text-decoration: none;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        border: 1px solid black;
+        transition: .1s;
+        text-align: center;
+
+        &:hover {
+            background-color: #ddd;
+        }
+    }
+}
+
+a {
+    color: blue;
+}
+
+.danger {
+    color: red !important;
+}

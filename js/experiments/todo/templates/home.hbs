@@ -1,0 +1,19 @@
+<h1>My To-Do List</h1>
+<i>{{date}}</i>
+
+<form method="post">
+    <label>task name:<input type="text" name="t-name" required></label>
+    <label>task description:<textarea name="t-desc"></textarea></label>
+    <input type="submit" value="add task">
+</form>
+
+{{#if tasks}}
+    <h2>My tasks</h2>
+
+    {{#each tasks}}
+        <div class="task">
+            <a href="/task/{{this.id}}">{{this.name}}</a>
+            <p>{{this.desc}}</p>
+        </div>
+    {{/each}}
+{{/if}}
