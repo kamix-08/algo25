@@ -39,32 +39,15 @@ type SearchPattern int
 
 const (
 	Naive SearchPattern = iota
+	BoyerMoore
 )
-
-func findNaive(pattern string, text string) int {
-	for i := 0; i <= len(text) - len(pattern); i++ {
-		found := true
-
-		for j := 0; j < len(pattern); j++ {
-			if text[i+j] != pattern[j] {
-				found = false
-				break
-			}
-		}
-
-		if found {
-			return i
-		}
-	}
-
-	return -1
-}
 
 func FindFirst(pattern string, text string, method SearchPattern, debug bool) int {
 	var idx int
 
 	switch method {
 	case Naive: idx = findNaive(pattern, text)
+	case BoyerMoore: idx = findBoyerMoore(pattern, text)
 	}
 
 	if debug {

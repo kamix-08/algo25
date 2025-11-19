@@ -1,7 +1,7 @@
 import string, random
 
 AVIABLE = string.ascii_letters + string.digits + '\n'
-NEEDLE = "dupa!"
+NEEDLE = "!dupadupa"
 NEEDLE_POSITION = 0.75
 
 def main():
