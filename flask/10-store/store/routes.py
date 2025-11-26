@@ -76,7 +76,7 @@ def add_product():
         quantity            = request.form.get('quantity' , type=int)
         weight_kg           = request.form.get('weight_kg', type=float)
         price_pln           = request.form.get('price_pln', type=float)
-        inventory_value_pln = quantity * price_pln if quantity and price_pln else 0
+        inventory_value_pln = round(quantity * price_pln, 2) if quantity and price_pln else 0
 
         new_item = Inventory(
             symbol              = symbol,              # type: ignore
@@ -94,4 +94,32 @@ def add_product():
         db.session.commit()
         
         flash('Produkt został dodany', 'success')
+        return redirect(url_for('store.index'))
+    
+@store_bp.route('/modify-product', methods=["GET", "POST"]) # type: ignore
+@login_required
+def modify_product():
+    if request.method == 'POST':
+        item = Inventory.query.get(request.args.get('id'))
+        item.symbol              = request.form.get('symbol')                # type: ignore
+        item.name                = request.form.get('name')                  # type: ignore
+        item.category            = request.form.get('category')              # type: ignore
+        item.brand               = request.form.get('brand')                 # type: ignore
+        item.model               = request.form.get('model')                 # type: ignore
+        item.quantity            = request.form.get('quantity' , type=int)   # type: ignore
+        item.weight_kg           = request.form.get('weight_kg', type=float) # type: ignore
+        item.price_pln           = request.form.get('price_pln', type=float) # type: ignore
+        item.inventory_value_pln = round(item.quantity * item.price_pln, 2) if item.quantity and item.price_pln else 0 # type: ignore
+
+        db.session.commit()
+        flash('Produkt został zmodyfikowany', 'success')
+        return redirect(url_for('store.index'))
+    
+@store_bp.route('/delete-product', methods=['GET', 'POST']) # type: ignore
+@login_required
+def delete_product():
+    if request.method == 'POST':
+        db.session.query(Inventory).filter_by(id=request.args.get('id')).delete()
+        db.session.commit()
+        flash('Produkt został usunięty', 'success')
         return redirect(url_for('store.index'))
