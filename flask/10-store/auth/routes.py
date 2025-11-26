@@ -31,15 +31,18 @@ def register():
     
     register_form = RegistrationForm()
     if register_form.validate_on_submit():
-        hashed_passowrd = bcrypt.generate_password_hash(register_form.password.data).decode('utf-8')
-        user = Users(email=register_form.email.data, password=hashed_passowrd) # type: ignore
-        
-        db.session.add(user)
-        db.session.commit()
-        
-        flash('Konto utworzone poprawnie', 'success')
-        return redirect(url_for('auth.login'))
-
+        try:
+            hashed_passowrd = bcrypt.generate_password_hash(register_form.password.data).decode('utf-8')
+            user = Users(email=register_form.email.data, password=hashed_passowrd) # type: ignore
+            
+            db.session.add(user)
+            db.session.commit()
+            
+            flash('Konto utworzone poprawnie', 'success')
+            return redirect(url_for('auth.login'))
+        except Exception:
+            flash('Błąd', 'error')
+            
     return render_template('auth/register.html', title='Register', register_form=register_form)
 
 @auth_bp.route('/dashboard')
