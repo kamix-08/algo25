@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Edytuj zadanie</h2>
+    <form method="POST" action="">
+        <div class="mb-3">
+            <label for="title" class="form-label">Tytuł</label>
+            <input type="text" class="form-control" id="title" name="title" value="{{ task.title or '' }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Opis</label>
+            <textarea class="form-control" id="description" name="description" rows="3">{{ task.description or '' }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="priority" class="form-label">Priorytet</label>
+            <select class="form-select" id="priority" name="priority">
+                <option value="wysoki" {% if task.priority == 'wysoki' %}selected{% endif %}>Wysoki</option>
+                <option value="średni" {% if task.priority == 'średni' %}selected{% endif %}>Średni</option>
+                <option value="niski" {% if task.priority == 'niski' %}selected{% endif %}>Niski</option>
+            </select>
+        </div>
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="completed" name="completed" value="true" {% if task.completed %}checked{% endif %}>
+            <label class="form-check-label" for="completed">
+                Ukończone
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Anuluj</a>
+    </form>
+</div>
+{% endblock %}

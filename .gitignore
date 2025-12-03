@@ -1,6 +1,8 @@
 *.exe
 *!*
 
+*.db
+
 .DS_Store
 .vscode
 
