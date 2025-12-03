@@ -8,5 +8,3 @@ node_modules
 .venv
 
 __pycache__
-
-data/
