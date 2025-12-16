@@ -1,7 +1,8 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, useColorScheme, View } from 'react-native'
 import React from 'react'
 
 const Tile = ({ x, y, state, setState }) => {
+    const scheme = useColorScheme()
     const id = y * 9 + x
 
     const callback = (v) => {
@@ -17,8 +18,8 @@ const Tile = ({ x, y, state, setState }) => {
     }
 
     return (
-        <TouchableOpacity onPress={onPress} style={styles.tile}>
-            <Text style={styles.option}>{state[id] == 0 ? '' : state[id]}</Text>
+        <TouchableOpacity onPress={onPress} style={{...styles.tile, borderColor: scheme == 'dark' ? 'white' : 'black'}}>
+            <Text style={{...styles.option, color: scheme == 'dark' ? 'white' : 'black'}}>{state[id] == 0 ? '' : state[id]}</Text>
         </TouchableOpacity>
     )
 }
@@ -36,12 +37,10 @@ const styles = StyleSheet.create({
         aspectRatio: 1,
         boxSizing: 'border-box',
         borderWidth: 1,
-        borderColor: 'black',
         borderStyle: 'solid',
         margin: 0
     },
     option: {
-        color: 'black',
         textAlign: 'center',
         fontSize: 16,
     }
