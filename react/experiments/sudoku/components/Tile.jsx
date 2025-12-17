@@ -1,5 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, useColorScheme, View } from 'react-native'
 import React from 'react'
+import Bubble from './Bubble'
 
 const Tile = ({ x, y, state, setState }) => {
     const scheme = useColorScheme()

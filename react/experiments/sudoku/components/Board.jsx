@@ -2,7 +2,7 @@ import { StyleSheet, View } from 'react-native'
 import { useEffect, useRef, useState } from 'react'
 import Tile from './Tile'
 
-const Board = () => {
+const Board = ({emptyCells}) => {
     const [state, setState] = useState([])
     const stateRef = useRef(state)
 
@@ -60,8 +60,21 @@ const Board = () => {
         return false
     }
 
+    const empty = (b) => {
+        let n = 0
+        while (n < emptyCells) {
+            const id = Math.floor(Math.random() * 81)
+            if (b[id] == 0)
+                continue
+
+            b[id] = 0
+            n++
+        }
+    }
+
     const init = () => {
         const b = generate(Array(81).fill(0))
+        empty(b)
         setState(b)
     }
 

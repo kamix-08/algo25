@@ -4,7 +4,7 @@ import Board from './components/Board';
 export default function App() {
 	return (
 		<View style={styles.body}>
-			<Board />
+			<Board emptyCells={50} />
 		</View>
 	);
 }
