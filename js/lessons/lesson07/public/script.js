@@ -10,8 +10,14 @@ addEventListener('DOMContentLoaded', () => {
     const list = $('#list')
 
     input.addEventListener('input', (e) => {
-        if (!e.target.value)
+        if (!e.target.value) {
+            input.classList.add('error')
+            l_country.innerText = 'this field cannot be empty'
             return
+        }
+
+        input.classList.remove('error')
+        l_country.innerText = ''
 
         fetch('/search/' + encodeURI(e.target.value))
             .then(data => data.json())
@@ -36,10 +42,11 @@ addEventListener('DOMContentLoaded', () => {
     const pass1 = $('input[name=pass1]')
     const pass2 = $('input[name=pass2]')
 
-    const l_email =  $('#email-error')
-    const l_pass  = $$('.error-pass')
+    const l_email   = $('#email-error')
+    const l_pass    = $$('.error-pass')
+    const l_country = $('#country-error')
 
-    const validateEmail = (e) => {
+    const validateEmail = async (e) => {
         email.classList.add('error')
 
         if (!email.value) {
@@ -55,9 +62,11 @@ addEventListener('DOMContentLoaded', () => {
             return false
         }
 
-        fetch('/lookup/' + encodeURIComponent(email.value))
+        await fetch('/lookup/' + encodeURIComponent(email.value), {
+            cache: 'no-store'
+        })
             .then(data => {
-                if (data.status != 200) {
+                if (data.status == 409) {
                     l_email.innerText = 'this email address is already in use'
                     return false
                 }
@@ -100,15 +109,33 @@ addEventListener('DOMContentLoaded', () => {
         return true
     }
 
+    const validateCountry = async () => {
+        const country = input.value
+
+        await fetch('/search/' + encodeURIComponent(country))
+            .then(data => data.json())
+            .then(data => {
+                if (data.indexOf(country) == -1) {
+                    input.classList.add('error')
+                    l_country.innerText = 'this country doesn\'t exist'
+                    return false
+                }
+
+                input.classList.remove('error')
+                l_country.innerText = ''
+                return true
+            })
+    }
+
     email.addEventListener('input', validateEmail)
 
     pass1.addEventListener('input', validatePass)
     pass2.addEventListener('input', validatePass)
 
-    $('form').addEventListener('submit', (e) => {
+    $('form').addEventListener('submit', async (e) => {
         e.preventDefault()
 
-        if (!validateEmail() || !validatePass()) {
+        if (!(await validateEmail()) || !validatePass() || !validateCountry()) {
             console.log('no')
             return
         }
