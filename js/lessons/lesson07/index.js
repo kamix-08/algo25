@@ -1,10 +1,14 @@
 import express from 'express'
 import { engine } from 'express-handlebars'
 import fs from 'node:fs/promises'
+import cookieParser from 'cookie-parser'
+import{ v4 } from 'uuid'
 
 const app = express()
 const port = 3407
+
 const file = '!users.json'
+const file_sessions = '!sessions.json'
 
 let countries = []
 fetch('https://restcountries.com/v3.1/all?fields=name')
@@ -14,9 +18,13 @@ fetch('https://restcountries.com/v3.1/all?fields=name')
     })
 
 await fs.appendFile(file, '')
+await fs.appendFile(file_sessions, '')
 
 let db = await fs.readFile(file, { encoding: 'utf8' })
-db = JSON.parse(db || '[]')
+db = db ? JSON.parse(db) : []
+
+let sessions = await fs.readFile(file_sessions, { encoding: 'utf8' })
+sessions = sessions ? JSON.parse(sessions) : []
 
 app.engine('hbs', engine({extname: ".hbs"}))
 app.set('view engine', 'hbs')
@@ -24,6 +32,8 @@ app.set('views', './templates')
 
 app.use(express.static('public'))
 app.use(express.json())
+app.use(express.urlencoded())
+app.use(cookieParser())
 
 app.get('/', (req, res) => {
     res.render('home')
@@ -46,6 +56,27 @@ app.post('/register', async (req, res) => {
     res.redirect('/register')
 })
 
+app.get('/login', (req, res) => {
+    res.render('login')
+})
+
+app.post('/login', async (req, res) => {
+    const user = db.find(e => e.login == req.body.email)
+    if (!user || user.password != req.body.pass1) {
+        return
+    }
+
+    const session = v4()
+    res.cookie('session_id', session, {
+        httpOnly: true
+    })
+
+    sessions.push(session)
+    await fs.writeFile(file_sessions, JSON.stringify(sessions, null, 2))
+
+    res.redirect('/')
+})
+
 app.get('/search/:term', (req, res) => {
     const term = req.params.term.toLowerCase()
 
@@ -66,6 +97,19 @@ app.get('/lookup/:user', (req, res) => {
     }
 
     res.sendStatus(409)
+})
+
+app.use((req, res, next) => {
+    if (sessions.includes(req.cookies.session_id)) {
+        next()
+        return
+    }
+
+    res.sendStatus(403)
+})
+
+app.get('/secret', (req, res) => {
+    res.render('secret')
 })
 
 app.listen(port, () => {

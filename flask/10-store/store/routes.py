@@ -1,10 +1,12 @@
-from flask import render_template, redirect, request, url_for, flash
+from flask import render_template, redirect, request, url_for, flash, Response, current_app
 from flask_login import login_required
 from extensions import db
 from models import Inventory
 from . import store_bp
 from .forms import AddProductForm
 import pandas as pd
+from io import StringIO
+from sqlalchemy import func
 
 @store_bp.route('/', methods=['GET', 'POST'])
 @login_required
@@ -63,6 +65,21 @@ def import_data():
     db.session.commit()
     flash('Dane zostały zapisane poprawnie', 'success')
     return redirect(url_for('store.index'))
+
+@store_bp.route('/export', methods=['GET']) # type: ignore
+@login_required
+def export_data():
+    query = "SELECT * FROM inventory ORDER BY id"
+    
+    engine = db.get_engine(current_app, bind='inventory') # type: ignore
+    df = pd.read_sql(query, engine)
+    
+    output = StringIO()
+    df.to_csv(output, index=False)
+    
+    response = Response(output.getvalue(), mimetype='text/csv')
+    response.headers['Content-Disposition'] = 'attachment; filename=inventory_export.csv'
+    return response
 
 @store_bp.route('/add-product', methods=['GET', 'POST']) # type: ignore
 @login_required

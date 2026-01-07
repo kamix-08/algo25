@@ -2,11 +2,10 @@ const $  = (sel, ctx = document.body) => ctx.querySelector(sel)
 const $$ = (sel, ctx = document.body) => [...ctx.querySelectorAll(sel)]
 
 addEventListener('DOMContentLoaded', () => {
-    const input = $('input[name=country]')
-    
-    if (!input)
+    if (!document.URL.endsWith('/register'))
         return
-
+    
+    const input = $('input[name=country]')
     const list = $('#list')
 
     input.addEventListener('input', (e) => {
