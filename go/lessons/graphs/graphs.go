@@ -36,6 +36,30 @@ func AdjListFromFile(file string) GraphList {
 	return gl
 }
 
-func BFS(adjList GraphList, start int, search int) {
-	
+func BFS(graph *GraphList, start int, search int) bool {
+	visited := make([]bool, len(graph.x))
+	visited[start] = true
+
+	var q []int
+	q = append(q, start)
+
+	for len(q) != 0 {
+		v := q[0]
+		q = q[1:]
+
+		for e := range graph.x[v] {
+			if visited[e] {
+				continue
+			}
+
+			if e == search {
+				return true
+			}
+
+			visited[e] = true
+			q = append(q, e)
+		}
+	}
+
+	return false
 }
