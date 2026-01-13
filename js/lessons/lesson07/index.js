@@ -53,7 +53,7 @@ app.post('/register', async (req, res) => {
     db.push(user)
     await fs.writeFile(file, JSON.stringify(db, null, 2))
 
-    res.sendStatus(200)
+    res.redirect('/')
 })
 
 app.get('/login', (req, res) => {

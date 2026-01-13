@@ -150,8 +150,7 @@ addEventListener('DOMContentLoaded', () => {
             })
         })
             .then(r => {
-                if (r.status == 200)
-                    window.location.replace(document.URL.replace('/register', '/login'))
+                window.location.href = r.url
             })
     })
 })
