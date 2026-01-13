@@ -53,16 +53,20 @@ app.post('/register', async (req, res) => {
     db.push(user)
     await fs.writeFile(file, JSON.stringify(db, null, 2))
 
-    res.redirect('/register')
+    res.sendStatus(200)
 })
 
 app.get('/login', (req, res) => {
-    res.render('login')
+    const err = req.query?.err
+    res.render('login', {
+        err: err
+    })
 })
 
 app.post('/login', async (req, res) => {
     const user = db.find(e => e.login == req.body.email)
     if (!user || user.password != req.body.pass1) {
+        res.redirect('/login?err=Nieprawidłowe dane')
         return
     }
 

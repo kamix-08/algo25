@@ -149,5 +149,9 @@ addEventListener('DOMContentLoaded', () => {
                 country: input.value
             })
         })
+            .then(r => {
+                if (r.status == 200)
+                    window.location.replace(document.URL.replace('/register', '/login'))
+            })
     })
 })
