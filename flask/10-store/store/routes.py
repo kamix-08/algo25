@@ -6,7 +6,7 @@ from . import store_bp
 from .forms import AddProductForm
 import pandas as pd
 from io import StringIO
-from sqlalchemy import func
+from sqlalchemy import func, asc, desc
 
 @store_bp.route('/', methods=['GET', 'POST'])
 @login_required
@@ -14,6 +14,8 @@ def index():
     add_product_form = AddProductForm()
     page = request.args.get('page', 1, int)
     search = request.args.get('search', '').strip()
+    order = request.args.get('order', 'id').strip().lower()
+    direction = request.args.get('direction', 'asc').strip().lower()
     query = Inventory.query
     
     if search:
@@ -25,9 +27,23 @@ def index():
             Inventory.category.ilike(f"%{search}")
         )
         
-    pagination = query.order_by(Inventory.id).paginate(page=page, per_page=20)
+    col = getattr(Inventory, order)
+    if direction == 'desc': col = desc(col)
+    else: col = asc(col)
+        
+    pagination = query.order_by(col).paginate(page=page, per_page=20)
     records = pagination.items
-    return render_template('store/index.html', title='Magazyn', records=records, pagination=pagination, search=search, add_product_form=add_product_form)
+    
+    return render_template(
+        'store/index.html',
+        title='Magazyn',
+        records=records,
+        pagination=pagination,
+        search=search,
+        order=order,
+        direction=direction,
+        add_product_form=add_product_form
+    )
 
 @store_bp.route('/import', methods=['GET', 'POST']) # type: ignore
 @login_required

@@ -39,8 +39,10 @@
             <div class="col-lg-3 offset-lg-6">
                 <form action="{{ url_for('store.index') }}" method="get">
                     <div class="input-group input-group-sm">
-                        <a href="{{ url_for('store.index') }}" class="btn btn-sm btn-secondary">Wyczyść</a>
-                        <input type="text" name="search" class="form-control" placeholder="Szukaj...">
+                        <a href="{{ url_for('store.index', order=order, direction=direction) }}" class="btn btn-sm btn-secondary">Wyczyść</a>
+                        <input type="text" name="search" class="form-control" placeholder="Szukaj..." value="{{ search or '' }}">
+                        <input type="hidden" name="order" value="{{ order }}">
+                        <input type="hidden" name="direction" value="{{ direction }}">
                         <button type="submit" class="btn btn-sm btn-outline-secondary"><i class="bi bi-search"></i></button>
                     </div>
                 </form>
@@ -59,16 +61,35 @@
                 <table class="table table-hover mt-1">
                     <thead>
                         <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Symbol</th>
-                            <th scope="col">Nazwa</th>
-                            <th scope="col">Kategoria</th>
-                            <th scope="col">Producent</th>
-                            <th scope="col">Model</th>
-                            <th scope="col">Ilość</th>
-                            <th scope="col">Waga (kg)</th>
-                            <th scope="col">Cena jednostkowa</th>
-                            <th scope="col">Wartość</th>
+                            {% set columns = [
+                                ('id', 'ID'),
+                                ('symbol', 'Symbol'),
+                                ('name', 'Nazwa'),
+                                ('category', 'Kategoria'),
+                                ('brand', 'Producent'),
+                                ('model', 'Model'),
+                                ('quantity', 'Ilość'),
+                                ('weight_kg', 'Waga (kg)'),
+                                ('price_pln', 'Cena jednostkowa'),
+                                ('inventory_value_pln', 'Wartość')
+                            ] %}
+                            {% for col, label in columns %}
+                                {% set is_sorted = (order == col) %}
+                                {% set next_dir = 'desc' if is_sorted and direction == 'asc' else 'asc' %}
+                                <th scope="col" style="cursor:pointer;">
+                                    <a href="{{ url_for('store.index', page=pagination.page, search=search, order=col, direction=next_dir) }}"
+                                       class="text-decoration-none {% if is_sorted %}fw-bold text-primary{% endif %}">
+                                        {{ label }}
+                                        {% if is_sorted %}
+                                            {% if direction == 'asc' %}
+                                                <i class="bi bi-caret-up-fill"></i>
+                                            {% else %}
+                                                <i class="bi bi-caret-down-fill"></i>
+                                            {% endif %}
+                                        {% endif %}
+                                    </a>
+                                </th>
+                            {% endfor %}
                             <th scope="col" class="text-end">Edycja</th>
                         </tr>
                     </thead>
@@ -104,22 +125,21 @@
                 <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-center">
                         <li class="page-item {% if not pagination.has_prev %} disabled {% endif %}">
-                            <a href="{{ url_for('store.index', page=pagination.prev_num, search=search) if pagination.has_prev else '0' }}" class="page-link">Poprzednia</a>
+                            <a href="{% if pagination.has_prev %}{{ url_for('store.index', page=pagination.prev_num, search=search, order=order, direction=direction) }}{% else %}0{% endif %}" class="page-link">Poprzednia</a>
                         </li>
 
                         {% for p in pagination.iter_pages(left_edge=1, left_current=2, right_current=2, right_edge=1) %}
                             {% if p %}
                                 <li class="page-item {% if p == pagination.page %} active {% endif %}">
-                                    <a href="{{ url_for('store.index', page=p, search=search) }}" class="page-link">{{ p }}</a>
+                                    <a href="{{ url_for('store.index', page=p, search=search, order=order, direction=direction) }}" class="page-link">{{ p }}</a>
                                 </li>
                             {% else %}
-                                <li class="page-item disabled"><span class="page-link">...</span>
-                                </li>
+                                <li class="page-item disabled"><span class="page-link">...</span></li>
                             {% endif %}
                         {% endfor %}
 
                         <li class="page-item {% if not pagination.has_next %} disabled {% endif %}">
-                            <a href="{{ url_for('store.index', page=pagination.next_num, search=search) if pagination.has_next else '0' }}" class="page-link">Następna</a>
+                            <a href="{% if pagination.has_next %}{{ url_for('store.index', page=pagination.next_num, search=search, order=order, direction=direction) }}{% else %}0{% endif %}" class="page-link">Następna</a>
                         </li>
                     </ul>
                 </nav>
@@ -130,16 +150,35 @@
                 <table class="table table-hover mt-1">
                     <thead>
                         <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Symbol</th>
-                            <th scope="col">Nazwa</th>
-                            <th scope="col">Kategoria</th>
-                            <th scope="col">Producent</th>
-                            <th scope="col">Model</th>
-                            <th scope="col">Ilość</th>
-                            <th scope="col">Waga (kg)</th>
-                            <th scope="col">Cena jednostkowa</th>
-                            <th scope="col">Wartość</th>
+                            {% set columns = [
+                                ('id', 'ID'),
+                                ('symbol', 'Symbol'),
+                                ('name', 'Nazwa'),
+                                ('category', 'Kategoria'),
+                                ('brand', 'Producent'),
+                                ('model', 'Model'),
+                                ('quantity', 'Ilość'),
+                                ('weight_kg', 'Waga (kg)'),
+                                ('price_pln', 'Cena jednostkowa'),
+                                ('inventory_value_pln', 'Wartość')
+                            ] %}
+                            {% for col, label in columns %}
+                                {% set is_sorted = (order == col) %}
+                                {% set next_dir = 'desc' if is_sorted and direction == 'asc' else 'asc' %}
+                                <th scope="col" style="cursor:pointer;">
+                                    <a href="{{ url_for('store.index', page=pagination.page, search=search, order=col, direction=next_dir) }}"
+                                       class="text-decoration-none {% if is_sorted %}fw-bold text-primary{% endif %}">
+                                        {{ label }}
+                                        {% if is_sorted %}
+                                            {% if direction == 'asc' %}
+                                                <i class="bi bi-caret-up-fill"></i>
+                                            {% else %}
+                                                <i class="bi bi-caret-down-fill"></i>
+                                            {% endif %}
+                                        {% endif %}
+                                    </a>
+                                </th>
+                            {% endfor %}
                             <th scope="col" class="text-end">Edycja</th>
                         </tr>
                     </thead>
@@ -171,22 +210,21 @@
                 <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-center">
                         <li class="page-item {% if not pagination.has_prev %} disabled {% endif %}">
-                            <a href="{{ url_for('store.index', page=pagination.prev_num, search=search) if pagination.has_prev else '0' }}" class="page-link">Poprzednia</a>
+                            <a href="{% if pagination.has_prev %}{{ url_for('store.index', page=pagination.prev_num, search=search, order=order, direction=direction) }}{% else %}0{% endif %}" class="page-link">Poprzednia</a>
                         </li>
 
                         {% for p in pagination.iter_pages(left_edge=1, left_current=2, right_current=2, right_edge=1) %}
                             {% if p %}
                                 <li class="page-item {% if p == pagination.page %} active {% endif %}">
-                                    <a href="{{ url_for('store.index', page=p, search=search) }}" class="page-link">{{ p }}</a>
+                                    <a href="{{ url_for('store.index', page=p, search=search, order=order, direction=direction) }}" class="page-link">{{ p }}</a>
                                 </li>
                             {% else %}
-                                <li class="page-item disabled"><span class="page-link">...</span>
-                                </li>
+                                <li class="page-item disabled"><span class="page-link">...</span></li>
                             {% endif %}
                         {% endfor %}
 
                         <li class="page-item {% if not pagination.has_next %} disabled {% endif %}">
-                            <a href="{{ url_for('store.index', page=pagination.next_num, search=search) if pagination.has_next else '0' }}" class="page-link">Następna</a>
+                            <a href="{% if pagination.has_next %}{{ url_for('store.index', page=pagination.next_num, search=search, order=order, direction=direction) }}{% else %}0{% endif %}" class="page-link">Następna</a>
                         </li>
                     </ul>
                 </nav>
