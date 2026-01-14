@@ -2,7 +2,9 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -23,8 +25,9 @@ func AdjListFromFile(file string) GraphList {
 		line := scanner.Text()
 		edges := strings.Split(line, ",")
 
-		for e := range edges {
-			y = append(y, int(e))
+		for _, e := range edges {
+			i, _ := strconv.Atoi(e)
+			y = append(y, i - 1)
 		}
 
 		x = append(x, y)
@@ -36,7 +39,20 @@ func AdjListFromFile(file string) GraphList {
 	return gl
 }
 
+func (g GraphList) String() string {
+	s := ""
+
+	for i, n := range g.x {
+		s += fmt.Sprintf("%v: %v\n", i, n)
+	}
+
+	return s
+}
+
 func BFS(graph *GraphList, start int, search int) bool {
+	start -= 1
+	search -= 1
+
 	visited := make([]bool, len(graph.x))
 	visited[start] = true
 
@@ -47,7 +63,7 @@ func BFS(graph *GraphList, start int, search int) bool {
 		v := q[0]
 		q = q[1:]
 
-		for e := range graph.x[v] {
+		for _, e := range graph.x[v] {
 			if visited[e] {
 				continue
 			}
@@ -58,6 +74,65 @@ func BFS(graph *GraphList, start int, search int) bool {
 
 			visited[e] = true
 			q = append(q, e)
+		}
+	}
+
+	return false
+}
+
+func DFS(graph *GraphList, start int, search int, visited []bool) bool {
+	if len(visited) != len(graph.x) {
+		visited = make([]bool, len(graph.x))
+
+		start -= 1
+		search -= 1
+	}
+
+	visited[start] = true
+
+	for _, n := range graph.x[start] {
+		if visited[n] {
+			continue
+		}
+
+		if n == search || DFS(graph, n, search, visited) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func DFS_iter(graph *GraphList, start int, search int) bool {
+	start -= 1
+	search -= 1
+
+	visited := make([]bool, len(graph.x))
+	visited[start] = true
+
+	var s []int
+	s = append(s, start)
+
+	for len(s) != 0 {
+		foundFree := false
+
+		for _, n := range graph.x[s[len(s) - 1]] {
+			if visited[n] {
+				continue
+			}
+
+			if n == search {
+				return true
+			}
+
+			foundFree = true
+			s = append(s, n)
+			visited[n] = true
+			break
+		}
+
+		if !foundFree {
+			s = s[:len(s) - 1]
 		}
 	}
 
