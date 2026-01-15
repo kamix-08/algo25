@@ -1,16 +1,84 @@
 import express from 'express'
 import { engine } from 'express-handlebars'
+import fs from 'node:fs/promises'
+
+const app = express()
 
 app.engine('hbs', engine({extname: '.hbs'}))
 app.set('view engine', 'hbs')
 app.set('views', './templates')
 
-const app = express()
-
 const port = 3407
+const users_file = './!users.json'
+
+async function readFile(file) {
+    await fs.appendFile(file, '')
+
+    const f = await fs.readFile(file, {encoding: 'utf8'})
+    return f ? JSON.parse(f) : []
+}
+
+async function writeFile(file, content) {
+    await fs.writeFile(file, JSON.stringify(content, null, 2), {encoding: 'utf8'})
+}
+
+const users = await readFile(users_file)
 
 app.get('/', (req, res) => {
-    
+    res.render('home', {
+        page: 'Home'
+    })  
+})
+
+app.get('/players/add', (req, res) => {
+    res.render('add-player', {
+        page: 'Add Player'
+    })
+})
+
+app.use(express.urlencoded())
+
+app.post('/players/add', (req, res) => {
+    const name = req.body.name
+    const surname = req.body.surname
+    const country = req.body.country
+    const age = req.body.age
+
+    const user = {
+        id: users.reduce((a, b) => Math.max(a, b.id), 0) + 1,
+        name: name,
+        surname: surname,
+        country: country,
+        age: age,
+        date: new Date().toLocaleString("pl-PL").split(', ').reverse().join(' ')
+    }
+
+    users.push(user)
+    writeFile(users_file, users)
+
+    res.redirect(`/players/${user.id}`)
+})
+
+app.get('/players/:id', (req, res) => {
+    const id = req.params.id
+    const user = users.find(u => u.id == id)
+
+    if (!user) {
+        res.sendStatus(404)
+        return
+    }
+
+    res.render('player', {
+        page: `${user.name} ${user.surname}`,
+        user: user
+    })
+})
+
+app.get('/players', (req, res) => {
+    res.render('players', {
+        page: 'Players',
+        users: users
+    })
 })
 
 app.listen(3407, () => console.log(`http://127.0.0.1:${port}`))
