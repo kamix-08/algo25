@@ -5,16 +5,31 @@
     <title>Example App</title>
 
     <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.cdnfonts.com/css/futura-pt" rel="stylesheet">
 </head>
 <body>
     <nav>
-        <a href="/">home</a> | 
-        <a href="/register">register</a> | 
-        <a href="/login">login</a>
+        <div class="left">
+            <a href="/">home</a> |
+            <a href="/register">register</a> |
+            <a href="/login">login</a>
+        </div>
+
+        <div class="right">
+            {{#if user}}
+                <span>logged in as: <a href="/profile">{{user.login}}</a></span>
+            {{else}}
+                <span>not logged in. <a href="/login">login</a></span>            
+            {{/if}}
+        </div>
     </nav>
 
     {{{body}}}
+    
+    {{#each scripts}}
+        <script src="/{{this}}.js"></script>
+    {{/each}}
 
-    <script src="/script.js"></script>
+    <script src="/cookie.js"></script>
 </body>
 </html>

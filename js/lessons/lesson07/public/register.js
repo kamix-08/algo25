@@ -2,9 +2,6 @@ const $  = (sel, ctx = document.body) => ctx.querySelector(sel)
 const $$ = (sel, ctx = document.body) => [...ctx.querySelectorAll(sel)]
 
 addEventListener('DOMContentLoaded', () => {
-    if (!document.URL.endsWith('/register'))
-        return
-    
     const input = $('input[name=country]')
     const list = $('#list')
 
@@ -126,20 +123,20 @@ addEventListener('DOMContentLoaded', () => {
             })
     }
 
-    email.addEventListener('input', validateEmail)
+    if (email)
+        email.addEventListener('input', validateEmail)
 
-    pass1.addEventListener('input', validatePass)
-    pass2.addEventListener('input', validatePass)
+    if (pass2) {
+        pass1.addEventListener('input', validatePass)
+        pass2.addEventListener('input', validatePass)
+    }
 
     $('form').addEventListener('submit', async (e) => {
         e.preventDefault()
 
-        if (!(await validateEmail()) || !validatePass() || !validateCountry()) {
-            console.log('no')
+        if ((l_email && !(await validateEmail())) || (l_pass[0] && !validatePass()) || (l_country && !validateCountry()))
             return
-        }
 
-        console.log('yes')
         fetch('/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

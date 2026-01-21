@@ -2,7 +2,7 @@ import express from 'express'
 import { engine } from 'express-handlebars'
 import fs from 'node:fs/promises'
 import cookieParser from 'cookie-parser'
-import{ v4 } from 'uuid'
+import { v4 } from 'uuid'
 
 const app = express()
 const port = 3407
@@ -24,7 +24,7 @@ let db = await fs.readFile(file, { encoding: 'utf8' })
 db = db ? JSON.parse(db) : []
 
 let sessions = await fs.readFile(file_sessions, { encoding: 'utf8' })
-sessions = sessions ? JSON.parse(sessions) : []
+sessions = sessions ? JSON.parse(sessions) : {}
 
 app.engine('hbs', engine({extname: ".hbs"}))
 app.set('view engine', 'hbs')
@@ -35,12 +35,21 @@ app.use(express.json())
 app.use(express.urlencoded())
 app.use(cookieParser())
 
+function render (req, res, page, options = {}) {
+    res.render(page, {
+        ...options,
+        user: db.find(e => e.login == sessions[req.cookies.session_id])
+    })
+}
+
 app.get('/', (req, res) => {
-    res.render('home')
+    render(req, res, 'home')
 })
 
 app.get('/register', (req, res) => {
-    res.render('register')
+    render(req, res, 'register', {
+        scripts: ['register']
+    })
 })
 
 app.post('/register', async (req, res) => {
@@ -50,15 +59,19 @@ app.post('/register', async (req, res) => {
         country: req.body.country
     }
 
-    db.push(user)
+    const id = db.findIndex(e => e.login == user.login)
+
+    if (id != -1) db[id] = user
+    else db.push(user)
+
     await fs.writeFile(file, JSON.stringify(db, null, 2))
 
-    res.redirect('/')
+    res.redirect(id == -1 ? '/login' : '/profile')
 })
 
 app.get('/login', (req, res) => {
     const err = req.query?.err
-    res.render('login', {
+    render(req, res, 'login', {
         err: err
     })
 })
@@ -75,7 +88,7 @@ app.post('/login', async (req, res) => {
         httpOnly: true
     })
 
-    sessions.push(session)
+    sessions[session] = user.login
     await fs.writeFile(file_sessions, JSON.stringify(sessions, null, 2))
 
     res.redirect('/')
@@ -104,7 +117,7 @@ app.get('/lookup/:user', (req, res) => {
 })
 
 app.use((req, res, next) => {
-    if (sessions.includes(req.cookies.session_id)) {
+    if (sessions[req.cookies.session_id]) {
         next()
         return
     }
@@ -113,7 +126,13 @@ app.use((req, res, next) => {
 })
 
 app.get('/secret', (req, res) => {
-    res.render('secret')
+    render(req, res, 'secret')
+})
+
+app.get('/profile', (req, res) => {
+    render(req, res, 'profile', {
+        scripts: ['register']
+    })
 })
 
 app.listen(port, () => {

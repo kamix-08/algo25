@@ -1,0 +1,19 @@
+<h1>profile</h1>
+
+<form method="post">
+    <label>email: <input type="email" name="email" value='{{user.login}}' disabled></label>
+
+    <br>
+    
+    <label>password: <input type="password" name="pass1" value='{{user.password}}' disabled></label>
+
+    <br>
+
+    <label>country: <input type="text" name="country" value='{{user.country}}'><i class="error-label" id="country-error"></i></label>
+
+    <div id="list"></div>
+
+    <br>
+
+    <input type="submit" value="submit">
+</form>
