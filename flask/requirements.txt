@@ -5,3 +5,4 @@ flask-Login
 flask-SQLAlchemy
 flask-Bcrypt
 pandas
+requests

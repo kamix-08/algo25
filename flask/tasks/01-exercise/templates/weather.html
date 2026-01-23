@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %} Pogoda - {{ data['stacja'] }} {% endblock %}
+
+{% block content %}
+    <h1>{{ data['stacja'] }}:</h1>
+
+    {% for cat in data %}
+        {% if cat != 'stacja' %}
+            <p><b>{{ cat }}</b>: {{ data[cat] }}</p>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
