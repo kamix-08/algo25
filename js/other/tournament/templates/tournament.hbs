@@ -1,1 +1,12 @@
 <h1>{{tournament.name}}</h1>
+
+{{#each tournament.rounds as | round |}}
+    <div>
+        {{#each round}}
+            <div>
+                {{#player this.p1}}<p>{{name}} {{surname}}</p>{{/player}}
+                {{#player this.p2}}<p>{{name}} {{surname}}</p>{{/player}}
+            </div>
+        {{/each}}
+    </div>
+{{/each}}
