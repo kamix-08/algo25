@@ -8,8 +8,11 @@ app.engine('hbs', engine({extname: '.hbs'}))
 app.set('view engine', 'hbs')
 app.set('views', './templates')
 
+app.use(express.urlencoded())
+
 const port = 3407
 const users_file = './!users.json'
+const tournaments_file = './!tournaments.json'
 
 async function readFile(file) {
     await fs.appendFile(file, '')
@@ -23,6 +26,7 @@ async function writeFile(file, content) {
 }
 
 const users = await readFile(users_file)
+const tournaments = await readFile(tournaments_file)
 
 app.get('/', (req, res) => {
     res.render('home', {
@@ -35,8 +39,6 @@ app.get('/players/add', (req, res) => {
         page: 'Add Player'
     })
 })
-
-app.use(express.urlencoded())
 
 app.post('/players/add', (req, res) => {
     const name = req.body.name
@@ -79,6 +81,39 @@ app.get('/players', (req, res) => {
         page: 'Players',
         users: users
     })
+})
+
+app.get('/tournaments', (req, res) => {
+    res.render('tournaments', {
+        page: 'Tournaments',
+        tournaments: tournaments
+    })
+})
+
+app.get('/tournaments/add', (req, res) => {
+    res.render('add-tournament', {
+        page: 'Add Tournament',
+        users: users
+    })
+})
+
+app.get('/tournaments/:id', (req, res) => {
+    const id = req.params.id
+    const tournament = tournaments.find(e => e.id == id)
+
+    if (!tournament) {
+        res.sendStatus(404)
+        return
+    }
+
+    res.render('tournament', {
+        page: tournament.name,
+        tournament: tournament
+    })
+})
+
+app.post('/tournaments/add', (req, res) => {
+    
 })
 
 app.listen(3407, () => console.log(`http://127.0.0.1:${port}`))

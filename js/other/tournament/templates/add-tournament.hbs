@@ -1,0 +1,20 @@
+<h1>add tournament</h1>
+
+<form method="post">
+    <label>Name<input type="text" name="name"></label>
+
+    <label>Players
+
+        {{#each users}}
+            <div>
+                <label>
+                    <input type="checkbox" name="p-{{this.id}}">
+                    <a href="/players/{{this.id}}" target="_blank">{{this.name}} {{this.surname}}</a>
+                </label>
+            </div>
+        {{/each}}
+    </label>
+
+    <input type="submit" value="add">
+    <a href="/">cancel</a>
+</form>
