@@ -35,19 +35,12 @@ app.use(express.json())
 app.use(express.urlencoded())
 app.use(cookieParser())
 
-function render (req, res, page, options = {}) {
-    res.render(page, {
-        ...options,
-        user: db.find(e => e.login == sessions[req.cookies.session_id])
-    })
-}
-
 app.get('/', (req, res) => {
-    render(req, res, 'home')
+    res.render('home')
 })
 
 app.get('/register', (req, res) => {
-    render(req, res, 'register', {
+    res.render('register', {
         scripts: ['register']
     })
 })
@@ -71,7 +64,7 @@ app.post('/register', async (req, res) => {
 
 app.get('/login', (req, res) => {
     const err = req.query?.err
-    render(req, res, 'login', {
+    res.render('login', {
         err: err
     })
 })
@@ -87,6 +80,8 @@ app.post('/login', async (req, res) => {
     res.cookie('session_id', session, {
         httpOnly: true
     })
+
+    res.cookie('usr', user.login)
 
     sessions[session] = user.login
     await fs.writeFile(file_sessions, JSON.stringify(sessions, null, 2))
@@ -126,11 +121,11 @@ app.use((req, res, next) => {
 })
 
 app.get('/secret', (req, res) => {
-    render(req, res, 'secret')
+    res.render('secret')
 })
 
 app.get('/profile', (req, res) => {
-    render(req, res, 'profile', {
+    res.render('profile', {
         scripts: ['register']
     })
 })

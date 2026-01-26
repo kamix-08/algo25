@@ -1,11 +1,11 @@
 <h1>{{tournament.name}}</h1>
 
-{{#each tournament.rounds as | round |}}
+{{#each tournament.rounds as | rounds |}}
     <div>
-        {{#each round}}
+        {{#each rounds}}
             <div>
-                {{#player this.p1}}<p>{{name}} {{surname}}</p>{{/player}}
-                {{#player this.p2}}<p>{{name}} {{surname}}</p>{{/player}}
+                {{#player this.p1}}<a href="/players/{{id}}" target="_blank">{{name}} {{surname}}</a>{{/player}}
+                {{#player this.p2}}<a href="/players/{{id}}" target="_blank">{{name}} {{surname}}</a>{{/player}}
             </div>
         {{/each}}
     </div>

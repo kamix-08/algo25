@@ -16,11 +16,7 @@
         </div>
 
         <div class="right">
-            {{#if user}}
-                <span>logged in as: <a href="/profile">{{user.login}}</a></span>
-            {{else}}
-                <span>not logged in. <a href="/login">login</a></span>            
-            {{/if}}
+            <span id="userInfo"></span>
         </div>
     </nav>
 
@@ -31,5 +27,13 @@
     {{/each}}
 
     <script src="/cookie.js"></script>
+
+    <script>
+        const user = document.cookie.split(';').find(e => e.trimStart().startsWith('usr='))?.split('=')[1]
+
+        document.getElementById('userInfo').innerHTML = user 
+            ? `logged in as: <a href="/profile">${decodeURIComponent(user)}</a>`
+            : `not logged in. <a href="/login">login</a>`
+    </script>
 </body>
 </html>
