@@ -126,7 +126,8 @@ app.get('/secret', (req, res) => {
 
 app.get('/profile', (req, res) => {
     res.render('profile', {
-        scripts: ['register']
+        scripts: ['register'],
+        user: db.find(e => e.login == sessions[req.cookies.session_id])
     })
 })
 
