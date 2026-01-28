@@ -14,6 +14,7 @@ app.set('view engine', 'hbs')
 app.set('views', './templates')
 
 hbs.registerHelper("player", (context, options) => options.fn(getPlayer(context)))
+hbs.registerHelper("eq", (a, b) => a == b)
 
 app.use(express.static('public'))
 app.use(express.urlencoded())
@@ -143,7 +144,8 @@ app.get('/tournaments', (req, res) => {
 app.get('/tournaments/add', (req, res) => {
     res.render('add-tournament', {
         page: 'Add Tournament',
-        users: users
+        users: users,
+        scripts: ['selectAllPlayers']
     })
 })
 
@@ -166,6 +168,21 @@ app.get('/tournaments/:id', (req, res) => {
         tournament: tournament,
         players: players
     })
+})
+
+app.post('/tournaments/:id', (req, res) => {
+    const id = req.params.id
+    const idx = tournaments.findIndex(e => e.id == id)
+
+    Object.keys(req.body)
+        .filter(e => e.startsWith("b-"))
+        .forEach(e => {
+            const [a,b] = e.split('-').slice(1)
+            tournaments[idx].rounds[a][b].res = +req.body[e]
+        })
+
+    writeFile(tournaments_file, tournaments)
+    res.redirect(`/tournaments/${id}`)
 })
 
 function getPlayer(id) {

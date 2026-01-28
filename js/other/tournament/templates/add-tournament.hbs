@@ -4,11 +4,15 @@
     <label>Name<input type="text" name="name"></label>
 
     <label>Players
+        <label>
+            <input type="checkbox" id="players-all">
+            Wszyscy gracze
+        </label>
 
         {{#each users}}
             <div>
                 <label>
-                    <input type="checkbox" name="p-{{this.id}}">
+                    <input type="checkbox" name="p-{{this.id}}" class="player-cb">
                     <a href="/players/{{this.id}}" target="_blank">{{this.name}} {{this.surname}}</a>
                 </label>
             </div>

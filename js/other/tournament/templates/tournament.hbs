@@ -1,12 +1,24 @@
 <h1>{{tournament.name}}</h1>
 
-{{#each tournament.rounds as | rounds |}}
-    <div>
-        {{#each rounds}}
-            <div>
-                {{#player this.p1}}<a href="/players/{{id}}" target="_blank">{{name}} {{surname}}</a>{{/player}}
-                {{#player this.p2}}<a href="/players/{{id}}" target="_blank">{{name}} {{surname}}</a>{{/player}}
-            </div>
-        {{/each}}
-    </div>
-{{/each}}
+<form method="post">
+    {{#each tournament.rounds as | rounds |}}
+        <div>
+            {{#with @index as | idx |}}
+                {{#each rounds}}
+                    <div>
+                        {{#player this.p1}}<a href="/players/{{id}}" target="_blank">{{name}} {{surname}}</a>{{/player}}
+                        {{#player this.p2}}<a href="/players/{{id}}" target="_blank">{{name}} {{surname}}</a>{{/player}}
+        
+                        <select name="b-{{idx}}-{{@index}}">
+                            {{#if (eq this.res -1)}}<option disabled selected>---</option>{{/if}}
+                            {{#player this.p1}}<option value="0" {{#if (eq this.res 0)}}selected{{/if}}>{{name}} {{surname}}</option>{{/player}}
+                            {{#player this.p2}}<option value="1" {{#if (eq this.res 1)}}selected{{/if}}>{{name}} {{surname}}</option>{{/player}}
+                        </select>
+                    </div>
+                {{/each}}
+            {{/with}}
+        </div>
+    {{/each}}
+    
+    <input type="submit" value="save">
+</form>
