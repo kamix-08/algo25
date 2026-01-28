@@ -38,6 +38,11 @@ async function writeFile(file, content) {
 const users = await readFile(users_file)
 const tournaments = await readFile(tournaments_file)
 
+if (!getPlayer(-1)) {
+    users.push({id:-1})
+    writeFile(users_file, users)
+}
+
 if (!existsSync(ratings_file)) {
     const res = await fetch('https://ratings.fide.com/download/blitz_rating_list.zip')
 
@@ -159,7 +164,7 @@ app.get('/tournaments/:id', (req, res) => {
     }
 
     const players = {}
-    tournament.players[0].forEach(player => {
+    tournament.players.forEach(player => {
         players[player] = getPlayer(player)
     })
 
@@ -169,41 +174,6 @@ app.get('/tournaments/:id', (req, res) => {
         players: players
     })
 })
-
-app.post('/tournaments/:id', (req, res) => {
-    const id = req.params.id
-    const idx = tournaments.findIndex(e => e.id == id)
-
-    Object.keys(req.body)
-        .filter(e => e.startsWith("b-"))
-        .forEach(e => {
-            const [a,b] = e.split('-').slice(1)
-            tournaments[idx].rounds[a][b].res = +req.body[e]
-        })
-
-    writeFile(tournaments_file, tournaments)
-    res.redirect(`/tournaments/${id}`)
-})
-
-function getPlayer(id) {
-    return users.find(e => e.id == id)
-}
-
-function generateRound(players) {
-    if (players.length % 2)
-        players.push(-1)
-
-    const round = []
-    for (let i=1; i<players.length; i+=2) {
-        round.push({
-            p1: players[i-1].id,
-            p2: players[i].id,
-            res: -1
-        })
-    }
-
-    return [players.map(e => e.id), round]
-}
 
 app.post('/tournaments/add', (req, res) => {
     const name = req.body.name
@@ -221,7 +191,7 @@ app.post('/tournaments/add', (req, res) => {
             break
     }
 
-    const [players, round] = generateRound(Object.keys(req.body)
+    const {players, round} = generateRound(Object.keys(req.body)
         .filter(e => e.startsWith('p-'))
         .map(e => getPlayer(+e.slice(2)))
         .toSorted(sortFn))
@@ -229,7 +199,7 @@ app.post('/tournaments/add', (req, res) => {
     const tournament = {
         id: tournaments.reduce((a, b) => Math.max(a, b.id), 0) + 1,
         name: name,
-        players: [players],
+        players: players,
         rounds: [round]
     }
 
@@ -238,6 +208,53 @@ app.post('/tournaments/add', (req, res) => {
 
     res.redirect(`/tournaments/${tournament.id}`)
 })
+
+app.post('/tournaments/:id', (req, res) => {
+    const id = req.params.id
+    const idx = tournaments.findIndex(e => e.id == id)
+
+    const rounds = tournaments[idx].rounds
+
+    Object.keys(req.body)
+        .filter(e => e.startsWith("b-"))
+        .forEach(e => {
+            const [a,b] = e.split('-').slice(1)
+            tournaments[idx].rounds[a][b].res = +req.body[e]
+        })
+
+    if (rounds[rounds.length - 1].every(e => e.res != -1)) {
+        const r = generateRound(rounds[rounds.length - 1].map(e => (e.res == 0 ? e.p1 : e.p2)).map(getPlayer))
+
+        if (r.round) tournaments[idx].rounds.push(r.round)
+        else tournaments[idx].winner = r.winner
+    }
+
+    writeFile(tournaments_file, tournaments)
+    res.redirect(`/tournaments/${id}`)
+})
+
+function getPlayer(id) {
+    return users.find(e => e.id == id)
+}
+
+function generateRound(players) {
+    if (players.length == 1)
+        return {winner: players[0].id}
+
+    if (players.length % 2)
+        players.push({id:-1})
+
+    const round = []
+    for (let i=1; i<players.length; i+=2) {
+        round.push({
+            p1: players[i-1].id,
+            p2: players[i].id,
+            res: players[i].id == -1 ? 0 : -1
+        })
+    }
+
+    return {players: players.map(e => e.id), round: round}
+}
 
 app.get('/lookup-db', (req, res) => {
     const name = standardize(req.query.name)
