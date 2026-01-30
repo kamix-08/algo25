@@ -10,12 +10,14 @@
         </label>
 
         {{#each users}}
-            <div>
-                <label>
-                    <input type="checkbox" name="p-{{this.id}}" class="player-cb">
-                    <a href="/players/{{this.id}}" target="_blank">{{this.name}} {{this.surname}}</a>
-                </label>
-            </div>
+            {{#unless (eq this._id -1)}}
+                <div>
+                    <label>
+                        <input type="checkbox" name="p-{{this._id}}" class="player-cb">
+                        <a href="/players/{{this._id}}" target="_blank">{{this.name}} {{this.surname}}</a>
+                    </label>
+                </div>
+            {{/unless}}
         {{/each}}
     </label>
 

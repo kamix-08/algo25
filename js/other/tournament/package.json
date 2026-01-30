@@ -1,5 +1,5 @@
 {
-  "name": "algo",
+  "name": "tournament",
   "version": "1.0.0",
   "description": "",
   "license": "ISC",
@@ -10,9 +10,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "cookie-parser": "^1.4.7",
     "express": "^5.2.1",
     "express-handlebars": "^8.0.4",
-    "uuid": "^13.0.0"
+    "nedb-promises": "^6.2.3",
+    "unzipper": "^0.12.3"
   }
 }

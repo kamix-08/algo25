@@ -5,24 +5,26 @@
         <div>
             {{#each rounds}}
                 <div>
-                    {{#player this.p1}}
-                        <a href="/players/{{id}}" target="_blank">{{name}} {{surname}}</a>
-                    {{/player}}
+                    {{#with (lookup @root.players this.p1)}}
+                        <a href="/players/{{_id}}" target="_blank">{{name}} {{surname}}</a>
+                    {{/with}}
 
-                    {{#player this.p2}}{{#unless (eq id -1)}}
-                        <a href="/players/{{id}}" target="_blank">{{name}} {{surname}}</a>
-                    {{/unless}}{{/player}}
-    
-                    <select name="b-{{@../index}}-{{@index}}">
+                    {{#with (lookup @root.players this.p2)}}{{#unless (eq _id -1)}}
+                        <a href="/players/{{_id}}" target="_blank">{{name}} {{surname}}</a>
+                    {{else}}
+                        <a>BYE</a>
+                    {{/unless}}{{/with}}
+
+                    <select name="b-{{@../index}}-{{@index}}" {{#unless @../last}}disabled{{/unless}}>
                         {{#if (eq this.res -1)}}<option disabled selected>---</option>{{/if}}
 
-                        {{#player this.p1}}
+                        {{#with (lookup @root.players this.p1)}}
                             <option value="0" {{#if (eq ../this.res 0)}}selected{{/if}}>{{name}} {{surname}}</option>
-                        {{/player}}
+                        {{/with}}
 
-                        {{#player this.p2}}{{#unless (eq id -1)}}
+                        {{#with (lookup @root.players this.p2)}}{{#unless (eq _id -1)}}
                             <option value="1" {{#if (eq ../this.res 1)}}selected{{/if}}>{{name}} {{surname}}</option>
-                        {{/unless}}{{/player}}
+                        {{/unless}}{{/with}}
                     </select>
                 </div>
             {{/each}}
@@ -33,5 +35,5 @@
 </form>
 
 {{#if tournament.winner}}
-    {{#player tournament.winner}}<h2>Winner: <a href="/players/{{id}}">{{name}} {{surname}}</a></h2>{{/player}}
+    {{#with (lookup players tournament.winner)}}<h2>Winner: <a href="/players/{{_id}}">{{name}} {{surname}}</a></h2>{{/with}}
 {{/if}}

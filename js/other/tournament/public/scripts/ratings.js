@@ -15,7 +15,7 @@ function fillSuggest() {
     fetch(`/lookup-db?name=${input_n.value}&surname=${input_s.value}`)
         .then(data => data.json())
         .then(data => {
-            input_r.placeholder = data.length ? data[0].rating : 0
+            input_r.placeholder = data[0] ? data[0].rating : 0
         })
 }
 
