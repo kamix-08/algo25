@@ -1,10 +1,12 @@
 <h1>{{tournament.name}}</h1>
 
 <form method="post">
-    {{#each tournament.rounds as | rounds |}}
-        <div>
-            {{#each rounds}}
-                <div>
+    <div class="bracket">{{#each tournament.rounds as | round |}}
+        <div class="round">
+            <h2 class="counter-round">Round </h2>
+            
+            {{#each round}}<div class="match-container">
+                <div class="match">
                     {{#with (lookup @root.players this.p1)}}
                         <a href="/players/{{_id}}" target="_blank">{{name}} {{surname}}</a>
                     {{/with}}
@@ -14,22 +16,22 @@
                     {{else}}
                         <a>BYE</a>
                     {{/unless}}{{/with}}
-
-                    <select name="b-{{@../index}}-{{@index}}" {{#unless @../last}}disabled{{/unless}}>
-                        {{#if (eq this.res -1)}}<option disabled selected>---</option>{{/if}}
-
-                        {{#with (lookup @root.players this.p1)}}
-                            <option value="0" {{#if (eq ../this.res 0)}}selected{{/if}}>{{name}} {{surname}}</option>
-                        {{/with}}
-
-                        {{#with (lookup @root.players this.p2)}}{{#unless (eq _id -1)}}
-                            <option value="1" {{#if (eq ../this.res 1)}}selected{{/if}}>{{name}} {{surname}}</option>
-                        {{/unless}}{{/with}}
-                    </select>
                 </div>
-            {{/each}}
-        </div>
-    {{/each}}
+
+                <select name="b-{{@../index}}-{{@index}}" {{#unless @../last}}disabled{{/unless}}>
+                    {{#if (eq this.res -1)}}<option disabled selected>---</option>{{/if}}
+
+                    {{#with (lookup @root.players this.p1)}}
+                        <option value="0" {{#if (eq ../this.res 0)}}selected{{/if}}>{{name}} {{surname}}</option>
+                    {{/with}}
+
+                    {{#with (lookup @root.players this.p2)}}{{#unless (eq _id -1)}}
+                        <option value="1" {{#if (eq ../this.res 1)}}selected{{/if}}>{{name}} {{surname}}</option>
+                    {{/unless}}{{/with}}
+                </select>
+            </div>
+        {{/each}}</div>
+    {{/each}}</div>
     
     <input type="submit" value="save">
 </form>
