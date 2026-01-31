@@ -1,7 +1,7 @@
 <h1>players</h1>
 
-{{#each users}}
+{{#each users}}{{#unless this.deleted}}
     <div>
         <a href="/players/{{this._id}}">{{this.name}} {{this.surname}}</a>
     </div>
-{{/each}}
+{{/unless}}{{/each}}

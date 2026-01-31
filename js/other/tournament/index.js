@@ -75,17 +75,15 @@ app.get('/players/add', (req, res) => {
     })
 })
 
-app.post('/players/add', async (req, res) => {
+function createUser(req, id) {
     const name = req.body.name
     const surname = req.body.surname
     const country = req.body.country
     const age = +req.body.age
     const rating = +req.body.rating
 
-    const lastUser = await dbUsers.find({}).sort({_id: -1}).limit(1)
-
-    const user = {
-        _id: (lastUser.length > 0 && lastUser[0]._id != -1) ? lastUser[0]._id + 1 : 1,
+    return {
+        _id: id,
         name: name,
         surname: surname,
         country: country,
@@ -93,9 +91,53 @@ app.post('/players/add', async (req, res) => {
         rating: rating,
         date: new Date().toLocaleString("pl-PL").split(', ').reverse().join(' ')
     }
+}
 
-    await dbUsers.insert(user)
+app.post('/players/add', async (req, res) => {
+    const lastUser = await dbUsers.find({}).sort({_id: -1}).limit(1)
+    const id = (lastUser.length > 0 && lastUser[0]._id != -1) ? lastUser[0]._id + 1 : 1
+    
+    await dbUsers.insert(createUser(req, id))
     res.redirect(`/players/${user._id}`)
+})
+
+app.get('/players/delete/:id', async (req, res) => {
+    const id = +req.params.id
+    await dbUsers.update(
+        {_id: id},
+        {$set: {deleted: true}}
+    )
+    res.redirect('/players')
+})
+
+app.get('/players/edit/:id', async (req, res) => {
+    const id = +req.params.id
+    const user = await dbUsers.findOne({_id: id})
+
+    if (!user) {
+        res.sendStatus(404)
+        return
+    }
+
+    res.render('edit-player', {
+        page: `Editing #${user._id}`,
+        user: user,
+        scripts: ['ratings']
+    })
+})
+
+app.post('/players/edit/:id', async (req, res) => {
+    const id = +req.params.id
+
+    const user = createUser(req, id)
+    delete user._id
+    
+    await dbUsers.update(
+        {_id: id},
+        {$set: user}
+    )
+
+    res.redirect(`/players/${id}`)
 })
 
 app.get('/players/:id', async (req, res) => {

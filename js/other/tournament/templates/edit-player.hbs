@@ -1,0 +1,12 @@
+<h1>edit player</h1>
+
+<form method="post">
+    <label>Name<input type="text" name="name" value="{{user.name}}"></label>
+    <label>Surname<input type="text" name="surname" value="{{user.surname}}"></label>
+    <label>Country<input type="text" name="country" value="{{user.country}}"></label>
+    <label>Age<input type="number" name="age" min="1" step="1" value="{{user.age}}"></label>
+    <label>Rating<input type="number" name="rating" min="0" step="1" value="{{user.rating}}"></label>
+
+    <input type="submit" value="update">
+    <a href="/players/{{user._id}}">cancel</a>
+</form>

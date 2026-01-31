@@ -8,11 +8,11 @@
             {{#each round}}<div class="match-container">
                 <div class="match">
                     {{#with (lookup @root.players this.p1)}}
-                        <a href="/players/{{_id}}" target="_blank">{{name}} {{surname}}</a>
+                        {{> player-link}}
                     {{/with}}
 
                     {{#with (lookup @root.players this.p2)}}{{#unless (eq _id -1)}}
-                        <a href="/players/{{_id}}" target="_blank">{{name}} {{surname}}</a>
+                        {{> player-link}}
                     {{else}}
                         <a>BYE</a>
                     {{/unless}}{{/with}}
@@ -37,5 +37,5 @@
 </form>
 
 {{#if tournament.winner}}
-    {{#with (lookup players tournament.winner)}}<h2>Winner: <a href="/players/{{_id}}">{{name}} {{surname}}</a></h2>{{/with}}
+    {{#with (lookup players tournament.winner)}}<h2>Winner: {{> player-link}}</h2>{{/with}}
 {{/if}}
