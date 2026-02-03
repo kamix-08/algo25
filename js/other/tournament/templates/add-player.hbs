@@ -1,11 +1,11 @@
 <h1>add player</h1>
 
 <form method="post">
-    <label>Name<input type="text" name="name"></label>
-    <label>Surname<input type="text" name="surname"></label>
-    <label>Country<input type="text" name="country"></label>
-    <label>Age<input type="number" name="age" min="1" step="1"></label>
-    <label>Rating<input type="number" name="rating" min="0" step="1"></label>
+    <label>Name<input type="text" name="name" required></label>
+    <label>Surname<input type="text" name="surname" required></label>
+    <label>Country<input type="text" name="country" required></label>
+    <label>Age<input type="number" name="age" min="1" step="1" required></label>
+    <label>Rating<input type="number" name="rating" min="0" step="1" required></label>
 
     <input type="submit" value="add">
     <a href="/">cancel</a>

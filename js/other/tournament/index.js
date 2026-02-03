@@ -98,7 +98,7 @@ app.post('/players/add', async (req, res) => {
     const id = (lastUser.length > 0 && lastUser[0]._id != -1) ? lastUser[0]._id + 1 : 1
     
     await dbUsers.insert(createUser(req, id))
-    res.redirect(`/players/${user._id}`)
+    res.redirect(`/players/${id}`)
 })
 
 app.get('/players/delete/:id', async (req, res) => {
@@ -174,7 +174,7 @@ app.get('/tournaments/add', async (req, res) => {
     res.render('add-tournament', {
         page: 'Add Tournament',
         users: users,
-        scripts: ['selectAllPlayers']
+        scripts: ['selectAllPlayers', 'enforceSelection']
     })
 })
 
