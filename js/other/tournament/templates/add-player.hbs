@@ -1,12 +1,18 @@
-<h1>add player</h1>
+<link rel="stylesheet" href="/styles/forms.css">
 
-<form method="post">
-    <label>Name<input type="text" name="name" required></label>
-    <label>Surname<input type="text" name="surname" required></label>
-    <label>Country<input type="text" name="country" required></label>
-    <label>Age<input type="number" name="age" min="1" step="1" required></label>
-    <label>Rating<input type="number" name="rating" min="0" step="1" required></label>
-
-    <input type="submit" value="add">
-    <a href="/">cancel</a>
-</form>
+<main>
+    <h1>Add player</h1>
+    
+    <form method="post">
+        <label><span>Name</span><input type="text" name="name" required></label>
+        <label><span>Surname</span><input type="text" name="surname" required></label>
+        <label><span>Country</span><input type="text" name="country" required></label>
+        <label><span>Age</span><input type="number" name="age" min="1" step="1" required></label>
+        <label><span>Rating</span><input type="number" name="rating" min="0" step="1" required></label>
+    
+        <div class="btns">
+            <input class="accept btn" type="submit" value="add">
+            <a class="cancel btn button" href="/players">cancel</a>
+        </div>
+    </form>
+</main>

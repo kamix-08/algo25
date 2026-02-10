@@ -1,8 +1,24 @@
-<h1>{{user.name}} {{user.surname}}</h1>
+<link rel="stylesheet" href="/styles/card.css">
+<link rel="stylesheet" href="/styles/player-page.css">
 
-<p><b>Rating</b>: {{user.rating}}</p>
-<p><b>Country</b>: {{user.country}}</p>
-<p><b>Registered</b>: {{user.date}}</p>
-
-<a href="/players/edit/{{user._id}}">edit</a>
-<a href="/players/delete/{{user._id}}">delete</a>
+<main>
+    <div class="card">
+        <h1>
+            <a href="/players" class="back">&#x2715;</a>
+            {{user.name}} {{user.surname}}
+        </h1>
+        
+        <div class="card-body">
+            <div class="info">
+                <p><b>Rating :</b> {{user.rating}}</p>
+                <p><b>Country :</b> {{user.country}}</p>
+                <p><b>Registered :</b> {{user.date}}</p>
+            </div>
+            
+            <div class="btns">
+                <a href="/players/edit/{{user._id}}" class="edit">edit</a>
+                <a href="/players/delete/{{user._id}}" class="delete">delete</a>
+            </div>
+        </div>
+    </div>
+</main>

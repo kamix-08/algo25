@@ -1,7 +1,15 @@
-<h1>tournaments</h1>
+<link rel="stylesheet" href="/styles/card.css">
 
-{{#each tournaments}}
-    <div>
-        <a href="/tournaments/{{this._id}}">{{this.name}}</a>
+<main>
+    <div class="card">
+        <h1>tournaments</h1>
+        
+        <div class="links">
+            {{#each tournaments}}
+                <div>
+                    <a href="/tournaments/{{this._id}}">{{this.name}}</a>
+                </div>
+            {{/each}}
+        </div>
     </div>
-{{/each}}
+</main>

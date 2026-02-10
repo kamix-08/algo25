@@ -1,0 +1,10 @@
+p{
+    color: #BDBDBD;
+    margin-top: 0;
+}
+
+main a{
+    color: #448AFF;
+    text-decoration: none;
+    text-shadow: 0.5px 0.5px #00000051;
+}

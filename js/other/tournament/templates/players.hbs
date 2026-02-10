@@ -1,7 +1,18 @@
-<h1>players</h1>
+<link rel="stylesheet" href="/styles/players-page.css">
+<link rel="stylesheet" href="/styles/card.css">
 
-{{#each users}}{{#unless this.deleted}}
-    <div>
-        <a href="/players/{{this._id}}">{{this.name}} {{this.surname}}</a>
+<main>
+
+    <div class="card">
+        <h1>Players</h1>
+        
+        <div class="links">
+            {{#each users}}{{#unless (eq _id -1)}}
+                {{> player-link}}
+            {{/unless}}{{/each}}
+        </div>
+
+        <a href="/players/add" class="add">Add players</a>
     </div>
-{{/unless}}{{/each}}
+
+</main>

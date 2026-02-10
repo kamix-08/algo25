@@ -1,36 +1,53 @@
-<h1>add tournament</h1>
+<link rel="stylesheet" href="/styles/forms.css">
+<link rel="stylesheet" href="/styles/card.css">
+<link rel="stylesheet" href="/styles/add-tournament-page.css">
 
-<form method="post" id="form">
-    <label>Name<input type="text" name="name" required></label>
+<main>
+    <div class="card">
+        <h1>add tournament</h1>
+        
+        <form method="post" id="form">
 
-    <label>Players
-        <label>
-            <input type="checkbox" id="players-all">
-            Wszyscy gracze
-        </label>
-
-        {{#each users}}
-            {{#unless (eq this._id -1)}}
-                <div>
-                    <label>
-                        <input type="checkbox" name="p-{{this._id}}" class="player-cb">
-                        <a href="/players/{{this._id}}" target="_blank">{{this.name}} {{this.surname}}</a>
+            <div class="splitCols">
+                <div class="left">
+                    <label>Name<input type="text" name="name" required></label>
+                    <label>Players order
+                        <select name="crit">
+                            <option value="name">Name</option>
+                            <option value="rating" selected>Rating</option>
+                            <option value="age">Age</option>
+                        </select>
                     </label>
                 </div>
-            {{/unless}}
-        {{/each}}
-    </label>
-
-    <label>Startlist
-        <select name="crit">
-            <option value="name">Name</option>
-            <option value="rating" selected>Rating</option>
-            <option value="age">Age</option>
-        </select>
-    </label>
-
-    <i id="error"></i>
-
-    <input type="submit" value="add">
-    <a href="/">cancel</a>
-</form>
+                
+                <div class="right">
+                    <label>Players
+                        <label>
+                            <input type="checkbox" id="players-all">
+                            Wszyscy gracze
+                        </label>
+                
+                        <div class="scrDiv">
+                            {{#each users}}
+                                {{#unless this.deleted}}{{#unless (eq this._id -1)}}
+                                    <div>
+                                        <label class="cb">
+                                            <input type="checkbox" name="p-{{this._id}}" class="player-cb">
+                                            <a href="/players/{{this._id}}" class="no-style">{{this.name}} {{this.surname}}</a>
+                                        </label>
+                                    </div>
+                                {{/unless}}{{/unless}}
+                            {{/each}}
+                        </div>
+                    </label>
+                    <i id="error"></i>
+                </div>
+            </div>
+        
+            <div class="btns">
+                <input class="accept btn" type="submit" value="add">
+                <a class="cancel btn" href="/tournaments">cancel</a>
+            </div>
+        </form>
+    </div>
+</main>
