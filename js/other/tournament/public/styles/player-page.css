@@ -24,7 +24,7 @@
 .wrapDiv{
     width: 90%;
     display: flex;
-    justify-content: end;
+    justify-content: start;
     margin-bottom: -20px;
 }
 
@@ -35,7 +35,7 @@
     width: fit-content;
     height: 45px;
     text-decoration: none;
-    font-size: 1.25em;
+    font-size: 0.75em;
     top: 7.5vh;
     right: 20vh;
     background-color: #3f51b56a;
@@ -49,11 +49,18 @@
     box-shadow: none;
 }
 
-h1{
+.head{
+    width: 100%;
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: -10%;
+}
+
+h1{
     text-align: center;
-    gap: 15px;
+    width: 90%;
 }
 
 .card-body{
@@ -69,8 +76,7 @@ h1{
     display: flex;
     flex-direction: row;
     align-items: center; justify-content: center;
-    gap: 3%
-
+    gap: 7.5px
 }
 
 .card{

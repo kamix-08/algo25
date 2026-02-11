@@ -46,6 +46,7 @@ span {
     text-decoration: none;
     line-height: 1;
     box-sizing: content-box;
+    transition: background-color 0.25s ease;
 }
 
 .accept {
@@ -57,4 +58,12 @@ span {
 .cancel {
     background-color: #f44336;
     color: white;
+}
+
+.accept:hover{
+    background-color: #38a33b;
+}
+
+.cancel:hover{
+    background-color: #dc0037;
 }

@@ -1,8 +1,9 @@
 <link rel="stylesheet" href="/card.css">
+<link rel="stylesheet" href="/styles/tournaments-page.css">
 
 <main>
     <div class="card">
-        <h1>tournaments</h1>
+        <h1>Tournaments</h1>
         
         <div class="links">
             {{#each tournaments}}
@@ -11,5 +12,7 @@
                 </div>
             {{/each}}
         </div>
+
+        <a href="/tournaments/add" class="add">Add tournaments</a>
     </div>
 </main>

@@ -54,7 +54,7 @@ form{
 }
 
 .scrDiv{
-    height: 27.5vh;
+    height: 25vh;
     overflow-y: auto;
 }
 
@@ -86,6 +86,8 @@ form{
     text-decoration: none;
     line-height: 1;
     box-sizing: content-box;
+    transition: background-color 0.25s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .accept {
@@ -95,6 +97,7 @@ form{
 
 .accept:hover{
     background-color: #38a33b;
+    box-shadow: 1.5px 1.5px 4px #757272c9;
 }
 
 .cancel {
@@ -105,7 +108,7 @@ form{
 .cancel:hover{
     background-color: #dc0037;
     color: #fff;
-    box-shadow: none;
+    box-shadow: 1.5px 1.5px 4px #757272c9;
 }
 
 label{
@@ -130,4 +133,8 @@ select{
     padding: 3px;
     border-radius: 2px;
     border: none;
+}
+
+#error{
+    font-size: 0.85em;
 }

@@ -1,4 +1,5 @@
 body {
+    overflow-x: hidden;
     counter-reset: counter-round;
 }
 
@@ -13,6 +14,8 @@ body {
 .bracket {
     display: flex;
     flex-direction: row;
+    width: 100%;
+    overflow-x: auto;
 }
 
 .match-container {
@@ -52,6 +55,7 @@ ul {
     overflow: hidden;
     background-color: #3F51B5;
     box-shadow: 2px 2px 2px #21212151;
+    z-index: 10;
 }
 
 li {
