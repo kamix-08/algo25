@@ -1,18 +1,15 @@
-<link rel="stylesheet" href="/styles/card.css">
 <link rel="stylesheet" href="/styles/player-page.css">
 
 <main>
     <div class="card">
-        <h1>
-            <a href="/players" class="back">&#x2715;</a>
-            {{user.name}} {{user.surname}}
-        </h1>
+        <div class="wrapDiv"><a href="/players" class="back">&#x2715;</a></div>
+        <h1> {{user.name}} {{user.surname}} </h1>
         
         <div class="card-body">
             <div class="info">
-                <p><b>Rating :</b> {{user.rating}}</p>
-                <p><b>Country :</b> {{user.country}}</p>
-                <p><b>Registered :</b> {{user.date}}</p>
+                <p><b>Rating :</b> <span>{{user.rating}}</span></p>
+                <p><b>Country :</b> <span>{{user.country}}</span></p>
+                <p><b>Registered :</b> <span>{{user.date}}</span></p>
             </div>
             
             <div class="btns">

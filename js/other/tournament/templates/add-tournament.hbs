@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="/styles/forms.css">
 <link rel="stylesheet" href="/styles/card.css">
 <link rel="stylesheet" href="/styles/add-tournament-page.css">
 
@@ -10,9 +9,9 @@
 
             <div class="splitCols">
                 <div class="left">
-                    <label>Name<input type="text" name="name" required></label>
-                    <label>Players order
-                        <select name="crit">
+                    <label><span>Name</span> <br> <input type="text" name="name" class="lInp" required></label>
+                    <label><span>Players order</span> <br>
+                        <select name="crit" class="lInp">
                             <option value="name">Name</option>
                             <option value="rating" selected>Rating</option>
                             <option value="age">Age</option>
@@ -21,10 +20,9 @@
                 </div>
                 
                 <div class="right">
-                    <label>Players
-                        <label>
-                            <input type="checkbox" id="players-all">
-                            Wszyscy gracze
+                    <label><span>Players</span> <br>
+                        <label class="blue">
+                            <input type="checkbox" id="players-all">Wszyscy gracze
                         </label>
                 
                         <div class="scrDiv">

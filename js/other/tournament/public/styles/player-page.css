@@ -1,9 +1,9 @@
 .edit, .delete{
     background-color: #3F51B5;
     color: #ffffff;
-    width: 125px;
+    width: 100px;
     margin: 10% 0 0;
-    padding: 7.5px;
+    padding: 5px;
     font-weight: bold;
     font-size: 1.1em;
 }
@@ -11,7 +11,6 @@
 .edit:hover, .delete:hover{
     background-color: #303F9F;
     color: #FFFFFF;
-    box-shadow: 1.5px 1.5px 4px #5050506e;
 }
 
 .delete:hover{
@@ -22,28 +21,39 @@
     background-color: #FA003F;
 }
 
+.wrapDiv{
+    width: 90%;
+    display: flex;
+    justify-content: end;
+    margin-bottom: -20px;
+}
+
 .back{
     background: none;
     color: #fff;
     font-size: 0.75em;
     width: fit-content;
     height: 45px;
+    text-decoration: none;
+    font-size: 1.25em;
+    top: 7.5vh;
+    right: 20vh;
+    background-color: #3f51b56a;
+    border-radius: 50%;
+    aspect-ratio: 1;
 }
 
 .back:hover{
-    background: none;
-    color: #BDBDBD;
+    background: #3F51B5;
+    color: #fff;
     box-shadow: none;
 }
 
 h1{
-    position: relative;
-
-    &>.back {
-        position: absolute;
-        top: 0; left: 10px;
-        padding: 2px;
-    }
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    gap: 15px;
 }
 
 .card-body{
@@ -52,7 +62,6 @@ h1{
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     color: #fff;
 }
 
@@ -64,24 +73,55 @@ h1{
 
 }
 
-
+.card{
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
 .info {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
     width: fit-content;
-    font-size: 1.25em;
+    font-size: 1.15em;
+    width: 35vw;
+    margin: 10px 0;
 }
 
 .info p {
     margin: 5px;
     height: 20px;
-    padding: 2px;
+    padding: 2px 2px 2px 50px;
+    width: 350px;
 }
 
 b {
     display: inline-block;
     width: 115px;
+    text-align: left;
+}
+
+main a{
+    background-color: #e5e4e4;
+    color: #3F51B5;
+    border-radius: 5px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+    font-size: 1.1em;
+
+    &:hover {
+        background-color: #C5CAE9;
+        color: #303F9F;
+    }
+}
+
+span{
+    min-width: 250px;
     text-align: left;
 }

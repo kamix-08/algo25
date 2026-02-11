@@ -21,14 +21,6 @@ span {
     width: 85px;
 }
 
-.accept {
-    background-color: #77DD77;
-}
-
-.cancel {
-    background-color: #FA003F;
-}
-
 .btns {
     display: flex;
     flex-direction: row;
