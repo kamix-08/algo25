@@ -62,6 +62,17 @@ const standardize = text => {
     return t.charAt(0).toUpperCase() + t.slice(1)
 }
 
+app.use((req, res, next) => {
+    if (!req.path.startsWith('/')) {
+        next()
+        return
+    }
+
+    if      (req.path.endsWith('.css')) res.redirect('/styles'  + req.path)
+    else if (req.path.endsWith('.js'))  res.redirect('/scripts' + req.path)
+    else next()
+})
+
 app.get('/', (req, res) => {
     res.render('home', {
         page: 'Home'
