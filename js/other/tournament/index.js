@@ -118,6 +118,7 @@ app.get('/players/delete/:id', async (req, res) => {
         {_id: id},
         {$set: {deleted: true}}
     )
+
     res.redirect('/players')
 })
 
@@ -125,7 +126,7 @@ app.get('/players/edit/:id', async (req, res) => {
     const id = +req.params.id
     const user = await dbUsers.findOne({_id: id})
 
-    if (!user) {
+    if (!user || user.deleted) {
         res.sendStatus(404)
         return
     }
@@ -155,7 +156,7 @@ app.get('/players/:id', async (req, res) => {
     const id = +req.params.id
     const user = await dbUsers.findOne({_id: id})
     
-    if (!user) {
+    if (!user || user.deleted) {
         res.sendStatus(404)
         return
     }

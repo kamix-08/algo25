@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="/players-page.css">
+<link rel="stylesheet" href="/players.css">
 <link rel="stylesheet" href="/card.css">
 
 <main>
@@ -7,9 +7,9 @@
         <h1>Players</h1>
         
         <div class="links">
-            {{#each users}}{{#unless (eq _id -1)}}
+            {{#each users}}{{#unless deleted}}{{#unless (eq _id -1)}}
                 {{> player-link}}
-            {{/unless}}{{/each}}
+            {{/unless}}{{/unless}}{{/each}}
         </div>
 
         <a href="/players/add" class="add">Add players</a>

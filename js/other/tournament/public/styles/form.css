@@ -52,18 +52,18 @@ span {
 .accept {
     background-color: #4CAF50;
     color: white;
+
+    &:hover {
+        background-color: #38a33b;
+    }
 }
 
 
 .cancel {
     background-color: #f44336;
     color: white;
-}
 
-.accept:hover{
-    background-color: #38a33b;
-}
-
-.cancel:hover{
-    background-color: #dc0037;
+    &:hover {
+        background-color: #dc0037;
+    }
 }
