@@ -1,9 +1,11 @@
-<link rel="stylesheet" href="/player-page.css">
+<link rel="stylesheet" href="/player.css">
 
 <main>
     <div class="card">
-        <div class="wrapDiv"><a href="/players" class="back">&#x2715;</a></div>
-        <h1> {{user.name}} {{user.surname}} </h1>
+        <div class="head"> 
+            <button onclick="goBack()" class="back">&#x2715;</button>
+            <h1>{{user.name}} {{user.surname}} </h1>
+        </div>
         
         <div class="card-body">
             <div class="info">

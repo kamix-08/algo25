@@ -1,12 +1,18 @@
-<h1>edit player</h1>
+<link rel="stylesheet" href="/form.css">
 
-<form method="post">
-    <label>Name<input type="text" name="name" value="{{user.name}}" required></label>
-    <label>Surname<input type="text" name="surname" value="{{user.surname}}" required></label>
-    <label>Country<input type="text" name="country" value="{{user.country}}" required></label>
-    <label>Age<input type="number" name="age" min="1" step="1" value="{{user.age}}" required></label>
-    <label>Rating<input type="number" name="rating" min="0" step="1" value="{{user.rating}}" required></label>
-
-    <input type="submit" value="update">
-    <button onclick="goBack()">cancel</button>
-</form>
+<main>
+    <h1>Edit player</h1>
+    
+    <form method="post">
+        <label><span>Name</span><input type="text" name="name" value="{{user.name}}" required></label>
+        <label><span>Surname</span><input type="text" name="surname" value="{{user.surname}}" required></label>
+        <label><span>Country</span><input type="text" name="country" value="{{user.country}}" required></label>
+        <label><span>Age</span><input type="number" name="age" min="1" step="1" value="{{user.age}}" required></label>
+        <label><span>Rating</span><input type="number" name="rating" min="0" step="1" value="{{user.rating}}" required></label>
+    
+        <div class="btns">
+            <input type="submit" value="update" class="accept btn">
+            <button onclick="goBack()" class="cancel btn">cancel</button>
+        </div>
+    </form>
+</main>

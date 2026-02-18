@@ -1,4 +1,4 @@
-.add{
+.add {
     background-color: #3F51B5;
     color: #ffffff;
     width: 125px;
@@ -6,10 +6,10 @@
     padding: 7.5px;
     font-weight: bold;
     font-size: 1.1em;
-}
 
-.add:hover{
-    background-color: #303F9F;
-    color: #FFFFFF;
-    box-shadow: 1.5px 1.5px 4px #5050506e;
+    &:hover {
+        background-color: #303F9F;
+        color: #FFFFFF;
+        box-shadow: 1.5px 1.5px 4px #5050506e;
+    }
 }

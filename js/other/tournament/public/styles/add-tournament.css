@@ -1,4 +1,4 @@
-main a{
+main a {
     background: none;
     color: #3F51B5;
     text-decoration: none;
@@ -6,7 +6,7 @@ main a{
     font-size: 1.1em;
 }
 
-.scrDiv a:hover{
+.scrDiv a:hover {
     background: none;
     text-decoration: none;
     text-shadow: 0.5px 0.5px #ffffff28;
@@ -14,12 +14,12 @@ main a{
     box-shadow: none;
 }
 
-main{
+main {
     color: #fff;
 }
 
 
-form{
+form {
     width: 90%; height: 100%;
     box-sizing: border-box;
     padding: 5px;
@@ -30,7 +30,7 @@ form{
 }
 
 
-.splitCols{
+.splitCols{ 
     height: 40vh; width: 100%;
     display: flex;
     flex-direction: row;
@@ -38,13 +38,13 @@ form{
     justify-content: space-between;
 }
 
-.left{
+.left {
     width: 33%; height: 35vh;
     padding: 5px;
     border-right: #3F51B5 2px solid;
 }
 
-.right{
+.right {
     width: 66%; height: 35vh;
     display: flex;
     flex-direction: column;
@@ -53,12 +53,12 @@ form{
     padding: 5px 5px 5px 15px;
 }
 
-.scrDiv{
-    height: 27.5vh;
+.scrDiv {
+    height: 25vh;
     overflow-y: auto;
 }
 
-.cb{
+.cb {
     display: flex;
     flex-direction: row;
 }
@@ -86,48 +86,56 @@ form{
     text-decoration: none;
     line-height: 1;
     box-sizing: content-box;
+    transition: background-color 0.25s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .accept {
     background-color: #4CAF50;
     color: white;
-}
 
-.accept:hover{
-    background-color: #38a33b;
+    &:hover {
+        background-color: #38a33b;
+        box-shadow: 1.5px 1.5px 4px #757272c9;
+    }
 }
 
 .cancel {
     background-color: #f44336;
     color: white;
+
+    &:hover {
+        background-color: #dc0037;
+        color: #fff;
+        box-shadow: 1.5px 1.5px 4px #757272c9;
+    }
 }
 
-.cancel:hover{
-    background-color: #dc0037;
-    color: #fff;
-    box-shadow: none;
-}
-
-label{
+label {
     height: 100%;
 }
 
-span{
+span {
     font-size: 1.25em;
 }
 
-select{
+select {
     padding: 0 2px;
 }
 
-.blue{
+.blue {
     color: #3F51B5;
     font-size: 1.1em;
 }
-.lInp{
+
+.lInp {
     width: 80%;
     margin: 5px 0 10px;
     padding: 3px;
     border-radius: 2px;
     border: none;
+}
+
+#error {
+    font-size: 0.85em;
 }

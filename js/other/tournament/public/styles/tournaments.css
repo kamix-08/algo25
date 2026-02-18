@@ -1,0 +1,16 @@
+.add {
+    background-color: #3F51B5;
+    color: #ffffff;
+    width: 175px;
+    margin: 1.5% 0 2%;
+    padding: 7.5px;
+    font-weight: bold;
+    font-size: 1.1em;
+    transition: background-color 0.25s ease;
+
+    &:hover {
+        background-color: #303F9F;
+        color: #FFFFFF;
+        box-shadow: 1.5px 1.5px 4px #5050506e;
+    }
+}
