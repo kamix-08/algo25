@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+    <div class="container mt-4">
+        <h2>Edytuj książkę</h2>
+        
+        <form method="POST">
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+                {{ form.title.label(class="form-label") }}
+                {{ form.title(class="form-control", value=book.title) }}
+            </div>
+
+            <div class="form-group">
+                {{ form.author.label(class="form-label") }}
+                {{ form.author(class="form-control", value=book.author) }}
+            </div>
+
+            <div class="form-group">
+                {{ form.genre.label(class="form-label") }}
+                {{ form.genre(class="form-control", value=book.genre) }}
+            </div>
+
+            <div class="form-group">
+                {{ form.published_year.label(class="form-label") }}
+                {{ form.published_year(class="form-control", value=book.published_year) }}
+            </div>
+
+            <div class="form-group">
+                {{ form.description.label(class="form-label") }}
+                {{ form.description(class="form-control", value=book.description) }}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Zapisz</button>
+            <a href="{{ url_for('index') }}" class="btn btn-secondary">Anuluj</a>
+        </form>
+    </div>
+{% endblock %}
