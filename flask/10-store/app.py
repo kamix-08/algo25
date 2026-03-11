@@ -8,6 +8,7 @@ from models import Users
 from main.routes import main_bp
 from auth.routes import auth_bp
 from store.routes import store_bp
+from shop.routes import shop_bp
 
 def create_app():
     app = Flask(__name__)
@@ -19,10 +20,10 @@ def create_app():
     DATA_DIR = os.path.join(BASE_DIR, 'data')
     
     os.makedirs(DATA_DIR, exist_ok=True)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(DATA_DIR, 'users.db')
-    app.config['SQLALCHEMY_BINDS'] = {
-        'inventory': 'sqlite:///' + os.path.join(DATA_DIR, 'inventory.db')
-    }
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(DATA_DIR, 'inventory.db')
+    # app.config['SQLALCHEMY_BINDS'] = {
+    #     'inventory': 'sqlite:///' + os.path.join(DATA_DIR, 'inventory.db')
+    # }
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     db.init_app(app)
@@ -32,7 +33,7 @@ def create_app():
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(store_bp, url_prefix='/store')
-
+    app.register_blueprint(shop_bp, url_prefix='/shop')
     @login_manager.user_loader
     def load_user(user_id):
         return Users.query.get(int(user_id))
