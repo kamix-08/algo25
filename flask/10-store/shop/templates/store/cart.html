@@ -38,8 +38,10 @@
                 <tr>
                     <th>Produkt</th>
                     <th>Cena</th>
+                    <th>W magazynie</th>
                     <th>Ilość</th>
                     <th>Suma</th>
+                    <th>Usuń</th>
                 </tr>
             </thead>
             <tbody>
@@ -47,8 +49,14 @@
                     <tr>
                         <td>{{ item.product.name }}</td>
                         <td>{{ "%.2f"|format(item.product.price_pln) }} zł</td>
-                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.product.quantity }}</td>
+                        <td><form action="{{ url_for('shop.update_cart', item_id=item.id) }}" method="post" class="d-flex align-items-center gap-2">
+                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="{{ item.product.quantity }}">
+                        </form></td>
                         <td>{{ "%.2f"|format(item.product.price_pln * item.quantity) }} zł</td>
+                        <td>
+                            <a href="{{ url_for('shop.remove_from_cart', item_id=item.id) }}" class="btn btn-sm btn-danger">Usuń</a>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
