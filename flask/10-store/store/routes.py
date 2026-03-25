@@ -1,13 +1,14 @@
-from flask import render_template, redirect, request, url_for, flash, Response, current_app
+from flask import render_template, redirect, request, url_for, flash, Response
 from flask_login import login_required
 from extensions import db
-from models import Inventory, Order, OrderItem
+from models import Inventory
 from . import store_bp
 from .forms import AddProductForm
 import pandas as pd
 from io import StringIO
 from sqlalchemy import func, asc, desc
 from datetime import datetime, timedelta
+from models import Order, OrderItem
 
 @store_bp.route('/', methods=['GET', 'POST'])
 @login_required
@@ -21,13 +22,20 @@ def index():
     
     if search:
         query = query.filter(
-            Inventory.name.ilike(f'%{search}')     |
-            Inventory.symbol.ilike(f"%{search}")   |
-            Inventory.brand.ilike(f"%{search}")    |
-            Inventory.model.ilike(f"%{search}")    |
-            Inventory.category.ilike(f"%{search}")
+            Inventory.name.ilike(f'%{search}%')     |
+            Inventory.symbol.ilike(f"%{search}%")   |
+            Inventory.brand.ilike(f"%{search}%")    |
+            Inventory.model.ilike(f"%{search}%")    |
+            Inventory.category.ilike(f"%{search}%")
         )
-        
+
+    allowed_sort_columns = {
+        'id', 'symbol', 'name', 'category', 'brand', 'model',
+        'quantity', 'weight_kg', 'price_pln', 'inventory_value_pln'
+    }
+    if order not in allowed_sort_columns:
+        order = 'id'
+
     col = getattr(Inventory, order)
     if direction == 'desc': col = desc(col)
     else: col = asc(col)
@@ -87,8 +95,8 @@ def import_data():
 @login_required
 def export_data():
     query = "SELECT * FROM inventory ORDER BY id"
-    
-    engine = db.get_engine(current_app, bind='inventory') # type: ignore
+
+    engine = db.engine
     df = pd.read_sql(query, engine)
     
     output = StringIO()
@@ -129,6 +137,8 @@ def add_product():
         
         flash('Produkt został dodany', 'success')
         return redirect(url_for('store.index'))
+
+    return redirect(url_for('store.index'))
     
 @store_bp.route('/modify-product', methods=["GET", "POST"]) # type: ignore
 @login_required
@@ -148,6 +158,8 @@ def modify_product():
         db.session.commit()
         flash('Produkt został zmodyfikowany', 'success')
         return redirect(url_for('store.index'))
+
+    return redirect(url_for('store.index'))
     
 @store_bp.route('/delete-product', methods=['GET', 'POST']) # type: ignore
 @login_required
@@ -157,6 +169,8 @@ def delete_product():
         db.session.commit()
         flash('Produkt został usunięty', 'success')
         return redirect(url_for('store.index'))
+
+    return redirect(url_for('store.index'))
 
 @store_bp.route('/dashboard-advanced')
 @login_required
@@ -190,12 +204,12 @@ def dashboard_advanced():
     top_products = db.session.query(
         Inventory.name.label('product_name'),
         func.sum(OrderItem.quantity).label('total_quantity'),
-        func.sum(OrderItem.quantity * OrderItem.price).label('total_revenue')
+        func.sum(OrderItem.quantity * OrderItem.price_pln).label('total_revenue')
     ).join(OrderItem, Inventory.id == OrderItem.product_id).group_by(Inventory.id).order_by(func.sum(OrderItem.quantity).desc()).limit(5).all()
     
     top_products_data = [(record.product_name, int(record.total_quantity), float(record.total_revenue)) for record in top_products]
 
-    # TODO 3: Oblicz ROZKŁAD KATEGORII (category_distribution)
+        # TODO 3: Oblicz ROZKŁAD KATEGORII (category_distribution)
     # Zapytanie powinno:
     #   - Wybrać Inventory.category, count(Inventory.id)
     #   - Group by category
