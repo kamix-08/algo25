@@ -1,12 +1,13 @@
 from flask import render_template, redirect, request, url_for, flash, Response, current_app
 from flask_login import login_required
 from extensions import db
-from models import Inventory
+from models import Inventory, Order, OrderItem
 from . import store_bp
 from .forms import AddProductForm
 import pandas as pd
 from io import StringIO
 from sqlalchemy import func, asc, desc
+from datetime import datetime, timedelta
 
 @store_bp.route('/', methods=['GET', 'POST'])
 @login_required
@@ -156,3 +157,81 @@ def delete_product():
         db.session.commit()
         flash('Produkt został usunięty', 'success')
         return redirect(url_for('store.index'))
+
+@store_bp.route('/dashboard-advanced')
+@login_required
+def dashboard_advanced():
+    # TODO 1: Oblicz PRZYCHÓD Z OSTATNICH 7 DNI (revenue_by_day)
+    # Użyj: datetime.utcnow() - timedelta(days=7)
+    # Zapytanie powinno:
+    #   - Wybrać date(Order.created_at) i sum(Order.total_price)
+    #   - Filtrować po dacie >= siedem dni temu
+    #   - Group by data
+    #   - Order by data
+    # Wynik: lista [(data, przychód), (data, przychód), ...]
+    
+    seven_days_ago = datetime.utcnow() - timedelta(days=7)
+    revenue_by_day = db.session.query(
+        func.date(Order.created_at).label('date'),
+        func.sum(Order.total_price).label('revenue')
+    ).filter(Order.created_at >= seven_days_ago).group_by(func.date(Order.created_at)).order_by(func.date(Order.created_at)).all()
+    
+    revenue_data = [(str(record.date), float(record.revenue)) for record in revenue_by_day]
+
+    # TODO 2: Oblicz TOP 5 PRODUKTÓW (top_products)
+    # Zapytanie powinno:
+    #   - Wybrać Inventory.name, sum(OrderItem.quantity), sum(OrderItem.quantity * price)
+    #   - JOIN OrderItem z Inventory
+    #   - Group by product
+    #   - Order by quantity DESC
+    #   - Limit 5
+    # Wynik: lista [(nazwa, ilość, przychód), ...]
+    
+    top_products = db.session.query(
+        Inventory.name.label('product_name'),
+        func.sum(OrderItem.quantity).label('total_quantity'),
+        func.sum(OrderItem.quantity * OrderItem.price).label('total_revenue')
+    ).join(OrderItem, Inventory.id == OrderItem.product_id).group_by(Inventory.id).order_by(func.sum(OrderItem.quantity).desc()).limit(5).all()
+    
+    top_products_data = [(record.product_name, int(record.total_quantity), float(record.total_revenue)) for record in top_products]
+
+    # TODO 3: Oblicz ROZKŁAD KATEGORII (category_distribution)
+    # Zapytanie powinno:
+    #   - Wybrać Inventory.category, count(Inventory.id)
+    #   - Group by category
+    # Wynik: lista [(kategoria, liczba), ...]
+    
+    category_distribution = db.session.query(
+        Inventory.category.label('category'),
+        func.count(Inventory.id).label('count')
+    ).group_by(Inventory.category).all()
+    
+    category_data = [(record.category, int(record.count)) for record in category_distribution]
+
+    # TODO 4: Oblicz KPI — CAŁKOWITY PRZYCHÓD
+    # Zapytanie: SELECT sum(total_price) FROM orders
+    
+    total_revenue = db.session.query(func.sum(Order.total_price)).scalar() or 0
+
+    # TODO 5: Oblicz KPI — ILOŚĆ ZAMÓWIEŃ
+    # Zapytanie: SELECT count(*) FROM orders
+    order_count = db.session.query(func.count(Order.id)).scalar() or 0
+
+    # TODO 6: Oblicz KPI — ŚREDNIA WARTOŚĆ ZAMÓWIENIA
+    # Formula: total_revenue / order_count (jeśli order_count > 0)
+    avg_order_value = (total_revenue / order_count) if order_count > 0 else 0
+
+    # TODO 7: Oblicz KPI — LICZBA PRODUKTÓW
+    product_count = db.session.query(func.count(Inventory.id)).scalar() or 0
+    # Zapytanie: SELECT count(*) FROM inventory
+
+    # Renderuj szablon z danymi
+    return render_template('store/dashboard_advanced.html',
+        revenue_data=revenue_data,
+        top_products_data=top_products_data,
+        category_data=category_data,
+        total_revenue=float(total_revenue),
+        order_count=int(order_count),
+        avg_order_value=avg_order_value,
+        product_count=int(product_count)
+    )
