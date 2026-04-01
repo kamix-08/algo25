@@ -2,17 +2,29 @@
 
 <?php require_once 'includes/header.php' ?>
 
-<?php if (empty($_SESSION['logged_in'])): 
+<?php
+$db = connectToDb();
+$usr = $db->query('SELECT id, role from users where login=\'' . $_SESSION['logged_in'] . '\'')->fetch_assoc();
+
+if (empty($usr)): 
     redirect('login.php', null);
 else:
-    $db = connectToDb();
-    $messages = $db->query('SELECT * from messages inner join users on user_id=users.id order by time desc')->fetch_all(MYSQLI_ASSOC);
+    $messages = $db->query('SELECT * from users right join messages on user_id=users.id order by time desc')->fetch_all(MYSQLI_ASSOC);
 
     echo '<table>';
         foreach ($messages as $msg): ?>
             <tr>
-                <td><b><?= $msg['login'] ?></b> <i><?= $msg['time'] ?></i></td>
+                <td><b><?= isset($msg['login']) ? $msg['login'] : '[deleted]' ?></b></td>
+                <td><i><?= $msg['time'] ?></i></td>
                 <td><?= $msg['message'] ?></td>
+                <td>
+                    <?php if ($usr['role'] == 'ROLE_MOD' || $usr['role'] == 'ROLE_ADMIN' || $msg['user_id'] == $usr['id']): ?>
+                        <form action="chat-delete-post.php" method="post">
+                            <input type="hidden" name="msg_id" value="<?= $msg['id'] ?>">
+                            <input type="submit" value="x">
+                        </form>
+                    <?php endif; ?>
+                </td>
             </tr>
         <?php endforeach;
     echo '</table>';
