@@ -6,3 +6,5 @@ flask-SQLAlchemy
 flask-Bcrypt
 pandas
 requests
+flask-talisman
+flask-limiter
