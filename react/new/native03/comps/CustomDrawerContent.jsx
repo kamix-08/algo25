@@ -2,19 +2,29 @@ import { Text, View } from 'react-native'
 import { DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer'
 import { Image } from 'react-native'
 
-import Icon from './../assets/splash-icon.png'
+import { Ionicons } from '@react-native-vector-icons/ionicons'
 
 const CustomDrawerContent = (props) => {
     return (
-        <DrawerContentScrollView {...props}>
-            <DrawerItemList {...props} />
+        <>
+            <View style={{ overflow: 'hidden' }}>
+                <View style={{ position: 'absolute', backgroundColor: 'orange', width: '100%', height: 75 }}></View>
+                <View style={{ backgroundColor: 'orange', height: 200, borderRadius: '50%', width: '100%', top: -25, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={{ color: 'white', fontSize: 24, fontWeight: 'bold', marginTop: 15 }}>Notes App cz. 2</Text>
+                    <Text style={{ color: '#6E4B57', fontSize: 16, fontWeight: 'bold' }}>Categories - edit - search</Text>
+                </View>
+            </View>
 
-            <DrawerItem
-                label='test'
-                icon={() => <Image style={{ width: 50, height: 50 }} source={Icon} />}
-                onPress={() => console.log('test')}
-            />
-        </DrawerContentScrollView>
+            <DrawerContentScrollView {...props} style={{ position: 'relative', top: -40 }}>
+                <DrawerItemList {...props} />
+
+                <DrawerItem
+                    label='info'
+                    icon={() => <Ionicons name='information-circle' color='red' size={28} />}
+                    onPress={() => alert('Notes App, v.2.0.0')}
+                />
+            </DrawerContentScrollView>
+        </>
     )
 }
 

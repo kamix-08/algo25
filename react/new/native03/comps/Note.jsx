@@ -7,22 +7,23 @@ const Note = ({ data, deleteSelf }) => {
     }
 
     function longPress() {
-        Alert.alert('Delete?', 'ts fr no takies-backsies', [
+        Alert.alert('Delete?', 'This action is irreversible', [
             {
-                text: 'nah im playin',
+                text: 'CANCEL',
                 style: 'cancel'
             },
             {
-                text: 'yes twin',
+                text: 'OK',
                 onPress: deleteSelf
             }
         ])
     }
 
     return (
-        <TouchableOpacity onPress={press} onLongPress={longPress} style={{ flex: 1, backgroundColor: data.color, borderRadius: 15, padding: 20 }}>
-            <Text>{data.name}</Text>
-            <Text>{data.desc}</Text>
+        <TouchableOpacity onPress={press} onLongPress={longPress} style={{ backgroundColor: data.color, borderRadius: 15, padding: 20, margin: '2.5%', width: '45%', aspectRatio: 1 }}>
+            <Text style={{ color: 'white', textAlign: 'right' }}>{data.date}</Text>
+            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{data.name}</Text>
+            <Text style={{ fontSize: 16, color: 'white' }}>{data.desc}</Text>
         </TouchableOpacity>
     )
 }
