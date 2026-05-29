@@ -10,6 +10,7 @@ import AddNoteScreen from './screens/AddNoteScreen'
 import AddCategoryScreen from './screens/AddCategoryScreen'
 
 import { Ionicons } from '@react-native-vector-icons/ionicons'
+import SettingsScreen from './screens/SettingsScreen';
 
 const Drawer = createDrawerNavigator()
 
@@ -30,6 +31,16 @@ export default function App() {
 				<Drawer.Screen name='dodaj kategorię' component={AddCategoryScreen} options={{
 					headerStyle: { backgroundColor: 'orange' }, headerTintColor: 'white',
 					drawerIcon: () => <Ionicons name='add-circle' size={28} color='orange' />
+				}} />
+
+				<Drawer.Screen name='ustawienia' component={SettingsScreen} options={{
+					headerStyle: { backgroundColor: 'orange' }, headerTintColor: 'white', headerTitle: 'ustawienia serwera',
+					drawerIcon: () => <Ionicons name='settings' size={28} color='blue' />
+				}} />
+
+				<Drawer.Screen name='backup' component={AddCategoryScreen} options={{
+					headerStyle: { backgroundColor: 'orange' }, headerTintColor: 'white',
+					drawerIcon: () => <Ionicons name='cloud' size={28} color='orange' />
 				}} />
 			</Drawer.Navigator>
 		</NavigationContainer>

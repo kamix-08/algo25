@@ -7,7 +7,7 @@ const AddCategoryScreen = () => {
 
     function submit() {
         const c = SecureStore.getItem('categories')
-        const categories = c ? JSON.parse(c) : []
+        const categories = c ? JSON.parse(c) : ['ogólne']
 
         SecureStore.setItem('categories', JSON.stringify([
             ...categories,

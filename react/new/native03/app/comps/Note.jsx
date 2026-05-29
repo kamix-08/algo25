@@ -21,13 +21,14 @@ const Note = ({ data, deleteSelf }) => {
 
     return (
         <TouchableOpacity onPress={press} onLongPress={longPress} style={{ backgroundColor: data.color, borderRadius: 15, padding: 20, margin: '2.5%', width: '45%', aspectRatio: 1 }}>
-            <Text style={{ color: 'white', textAlign: 'right' }}>{data.date}</Text>
-            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{data.name}</Text>
-            <Text style={{ fontSize: 16, color: 'white' }}>{data.desc}</Text>
+            <View style={{ alignSelf: 'flex-start' }}>
+                <Text style={{ color: data.color, backgroundColor: 'white', padding: 5, borderRadius: 10, fontSize: 12, textTransform: 'uppercase', fontWeight: 'bold' }}>{data.cat}</Text>
+            </View>
+            <Text style={{ color: 'white', textAlign: 'right', fontSize: 12 }}>{data.date}</Text>
+            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{data.name}</Text>
+            <Text style={{ fontSize: 14, color: 'white' }}>{data.desc}</Text>
         </TouchableOpacity>
     )
 }
 
 export default Note
-
-const styles = StyleSheet.create({})
