@@ -16,11 +16,39 @@ const CustomDrawerContent = (props) => {
             </View>
 
             <DrawerContentScrollView {...props} style={{ position: 'relative', top: -40 }}>
-                <DrawerItemList {...props} />
+                <DrawerItem
+                    label='notatki'
+                    icon={() => <Ionicons name='document-text' size={28} color='green' />}
+                    onPress={() => props.navigation.navigate('notatki')}
+                />
+
+                <DrawerItem
+                    label='dodaj'
+                    icon={() => <Ionicons name='add-circle' size={28} color='blue' />}
+                    onPress={() => props.navigation.navigate('dodaj')}
+                />
+
+                <DrawerItem
+                    label='kategorie'
+                    icon={() => <Ionicons name='add-circle' size={28} color='orange' />}
+                    onPress={() => props.navigation.navigate('kategorie')}
+                />
+
+                <DrawerItem
+                    label='ustawienia'
+                    icon={() => <Ionicons name='settings' size={28} color='blue' />}
+                    onPress={() => props.navigation.navigate('ustawienia')}
+                />
+
+                <DrawerItem
+                    label='backup'
+                    icon={() => <Ionicons name='cloud' size={28} color='orange' />}
+                    onPress={() => props.navigation.navigate('backup')}
+                />
 
                 <DrawerItem
                     label='info'
-                    icon={() => <Ionicons name='information-circle' color='red' size={28} />}
+                    icon={() => <Ionicons name='information-circle' size={28} color='red' />}
                     onPress={() => alert('Notes App, v.3.0.0')}
                 />
             </DrawerContentScrollView>

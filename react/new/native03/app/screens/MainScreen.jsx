@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, TextInput } from 'react-native'
+import { StyleSheet, Text, View, FlatList, TextInput, TouchableOpacity } from 'react-native'
 import { useEffect, useState } from 'react'
 import * as SecureStore from 'expo-secure-store'
 import Note from './../comps/Note'
@@ -13,6 +13,11 @@ const MainScreen = ({ navigation }) => {
 
         SecureStore.setItem('notes', JSON.stringify(notes.filter(ele => ele.key != id)))
         setData(d => d.filter(e => e.key != id))
+    }
+
+    function deleteAll() {
+        SecureStore.setItem('notes', '[]')
+        setData([])
     }
 
     useEffect(() => {
@@ -33,10 +38,14 @@ const MainScreen = ({ navigation }) => {
                 style={{ backgroundColor: 'lightgray', borderRadius: 20, margin: 10, marginTop: 20, padding: 10, fontWeight: 'bold' }}
             />
 
+            <TouchableOpacity onPress={deleteAll} style={{ margin: 'auto', padding: 15, backgroundColor: 'orange', borderRadius: 30, width: '60%', marginBottom: 10 }}>
+                <Text style={{ color: 'white', textAlign: 'center', fontWeight: 'bold' }}>USUŃ WSZYSTKIE NOTATKI</Text>
+            </TouchableOpacity>
+
             <FlatList
                 numColumns='2'
                 data={data.filter(d => f(d.name) || f(d.desc) || f(d.cat))}
-                renderItem={({ item }) => <Note data={item} deleteSelf={() => deleteNote(item.key)} />}
+                renderItem={({ item }) => <Note data={item} deleteSelf={() => deleteNote(item.key)} navigation={navigation} />}
                 keyExtractor={item => item.key}
             />
         </View>

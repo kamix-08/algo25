@@ -3,12 +3,13 @@ import * as SecureStore from 'expo-secure-store'
 import { useState, useEffect } from 'react'
 import { Picker } from '@react-native-picker/picker'
 
-const AddNoteScreen = ({ navigation }) => {
+const EditNoteScreen = ({ navigation, route }) => {
+    const [note, setNote] = useState({})
     const [categories, setCategories] = useState([])
 
     const [name, setName] = useState()
     const [desc, setDesc] = useState()
-    const [cat, setCat] = useState('ogólne')
+    const [cat, setCat] = useState()
 
     const colors = ['#4EB6AD', '#F16393', '#65B4F6', '#9476CC']
 
@@ -16,20 +17,20 @@ const AddNoteScreen = ({ navigation }) => {
         const n = SecureStore.getItem('notes')
         const notes = n ? JSON.parse(n) : []
 
-        const id = notes.reduce((a, b) => Math.max(a, b.key), 0) + 1
-        const d = new Date()
+        SecureStore.setItem('notes', JSON.stringify(notes.map(e => {
+            if (e.key != note.key)
+                return e
 
-        SecureStore.setItem('notes', JSON.stringify([
-            ...notes,
-            {
+            const d = new Date()
+
+            return {
                 name: name, desc: desc, cat: cat,
-                key: id, color: colors[Math.floor(Math.random() * colors.length)], 
+                key: e.key, color: e.color, 
                 date: d.toLocaleString('default', { day: '2-digit', month: 'short' }).toUpperCase()
             }
-        ]))
+        })))
 
-        setName('')
-        setDesc('')
+        navigation.navigate('notatki')
     }
 
     useEffect(() => {
@@ -38,6 +39,15 @@ const AddNoteScreen = ({ navigation }) => {
             setCategories(c ? JSON.parse(c) : ['ogólne'])
         })
     }, [navigation])
+
+    useEffect(() => {
+        const n = route.params.note
+
+        setNote(n)
+        setName(n.name)
+        setDesc(n.desc)
+        setCat(n.cat)
+    }, [route.params.note])
 
     return (
         <View style={{ marginTop: 50 }}>
@@ -57,10 +67,10 @@ const AddNoteScreen = ({ navigation }) => {
             </Picker>
 
             <TouchableOpacity onPress={submit} style={{ margin: 'auto', padding: 15, backgroundColor: 'orange', borderRadius: 30, width: '60%', marginTop: 40 }}>
-                <Text style={{ color: 'white', textAlign: 'center', fontWeight: 'bold' }}>DODAJ</Text>
+                <Text style={{ color: 'white', textAlign: 'center', fontWeight: 'bold' }}>OK</Text>
             </TouchableOpacity>
         </View>
     )
 }
 
-export default AddNoteScreen
+export default EditNoteScreen

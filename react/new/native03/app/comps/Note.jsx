@@ -1,9 +1,11 @@
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 
-const Note = ({ data, deleteSelf }) => {
+const Note = ({ data, deleteSelf, navigation }) => {
     function press() {
-        alert(data.desc)
+        navigation.navigate('edytuj', {
+            note: data
+        })
     }
 
     function longPress() {
