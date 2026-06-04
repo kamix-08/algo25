@@ -11,8 +11,8 @@ const MainScreen = ({ navigation }) => {
         const n = SecureStore.getItem('notes')
         const notes = n ? JSON.parse(n) : []
 
-        SecureStore.setItem('notes', JSON.stringify(notes.filter(ele => ele.key != id)))
-        setData(d => d.filter(e => e.key != id))
+        SecureStore.setItem('notes', JSON.stringify(notes.filter(ele => ele._id != id)))
+        setData(d => d.filter(e => e._id != id))
     }
 
     function deleteAll() {
@@ -45,8 +45,8 @@ const MainScreen = ({ navigation }) => {
             <FlatList
                 numColumns='2'
                 data={data.filter(d => f(d.name) || f(d.desc) || f(d.cat))}
-                renderItem={({ item }) => <Note data={item} deleteSelf={() => deleteNote(item.key)} navigation={navigation} />}
-                keyExtractor={item => item.key}
+                renderItem={({ item }) => <Note data={item} deleteSelf={() => deleteNote(item._id)} navigation={navigation} />}
+                keyExtractor={item => item._id}
             />
         </View>
     )

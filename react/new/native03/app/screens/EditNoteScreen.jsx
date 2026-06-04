@@ -18,14 +18,14 @@ const EditNoteScreen = ({ navigation, route }) => {
         const notes = n ? JSON.parse(n) : []
 
         SecureStore.setItem('notes', JSON.stringify(notes.map(e => {
-            if (e.key != note.key)
+            if (e._id != note._id)
                 return e
 
             const d = new Date()
 
             return {
                 name: name, desc: desc, cat: cat,
-                key: e.key, color: e.color, 
+                _id: e._id, color: e.color, 
                 date: d.toLocaleString('default', { day: '2-digit', month: 'short' }).toUpperCase()
             }
         })))

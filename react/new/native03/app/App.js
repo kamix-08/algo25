@@ -7,11 +7,12 @@ import CustomDrawerContent from './comps/CustomDrawerContent'
 
 import MainScreen from './screens/MainScreen'
 import AddNoteScreen from './screens/AddNoteScreen'
+import EditNoteScreen from './screens/EditNoteScreen'
 import AddCategoryScreen from './screens/AddCategoryScreen'
+import SettingsScreen from './screens/SettingsScreen'
+import BackupScreen from './screens/BackupScreen'
 
 import { Ionicons } from '@react-native-vector-icons/ionicons'
-import SettingsScreen from './screens/SettingsScreen';
-import EditNoteScreen from './screens/EditNoteScreen';
 
 const Drawer = createDrawerNavigator()
 
@@ -39,7 +40,7 @@ export default function App() {
 					headerStyle: { backgroundColor: 'orange' }, headerTintColor: 'white', headerTitle: 'ustawienia serwera'
 				}} />
 
-				<Drawer.Screen name='backup' component={AddCategoryScreen} options={{
+				<Drawer.Screen name='backup' component={BackupScreen} options={{
 					headerStyle: { backgroundColor: 'orange' }, headerTintColor: 'white', headerTitle: 'backup danych'
 				}} />
 			</Drawer.Navigator>

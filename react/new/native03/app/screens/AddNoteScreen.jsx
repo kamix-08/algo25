@@ -16,14 +16,14 @@ const AddNoteScreen = ({ navigation }) => {
         const n = SecureStore.getItem('notes')
         const notes = n ? JSON.parse(n) : []
 
-        const id = notes.reduce((a, b) => Math.max(a, b.key), 0) + 1
+        const id = notes.reduce((a, b) => Math.max(a, b._id), 0) + 1
         const d = new Date()
 
         SecureStore.setItem('notes', JSON.stringify([
             ...notes,
             {
                 name: name, desc: desc, cat: cat,
-                key: id, color: colors[Math.floor(Math.random() * colors.length)], 
+                _id: id, color: colors[Math.floor(Math.random() * colors.length)], 
                 date: d.toLocaleString('default', { day: '2-digit', month: 'short' }).toUpperCase()
             }
         ]))
