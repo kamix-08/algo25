@@ -19,6 +19,11 @@ const AddNoteScreen = ({ navigation }) => {
         const id = notes.reduce((a, b) => Math.max(a, b._id), 0) + 1
         const d = new Date()
 
+        if (!name) {
+            alert('Notatka musi mieć tytuł!')
+            return
+        }
+
         SecureStore.setItem('notes', JSON.stringify([
             ...notes,
             {
@@ -30,6 +35,7 @@ const AddNoteScreen = ({ navigation }) => {
 
         setName('')
         setDesc('')
+        setCat('ogólne')
     }
 
     useEffect(() => {

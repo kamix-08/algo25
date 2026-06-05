@@ -17,6 +17,11 @@ const EditNoteScreen = ({ navigation, route }) => {
         const n = SecureStore.getItem('notes')
         const notes = n ? JSON.parse(n) : []
 
+        if (!name) {
+            alert('Notatka musi mieć tytuł!')
+            return
+        }
+
         SecureStore.setItem('notes', JSON.stringify(notes.map(e => {
             if (e._id != note._id)
                 return e

@@ -9,6 +9,11 @@ const AddCategoryScreen = () => {
         const c = SecureStore.getItem('categories')
         const categories = c ? JSON.parse(c) : ['ogólne']
 
+        if (!name) {
+            alert('Kategoria musi mieć nazwę!')
+            return
+        }
+
         SecureStore.setItem('categories', JSON.stringify([
             ...categories,
             name
