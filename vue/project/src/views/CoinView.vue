@@ -34,6 +34,7 @@ const router = useRouter()
     <div v-if="data">
         <div v-for="coin in data" :key="coin.id" @:click="() => router.push(coin.id)">
             <h2>{{ coin.name }}</h2>
+            <img :src="coin.image" :alt="`${coin.name} Logo`" height="32" width="32">
             <p>Current Price: {{ formatPrice(coin.current_price) }}</p>
             <p>Market Cap: {{ formatPrice(coin.market_cap) }}</p>
             <p>24h Change: {{ coin.price_change_percentage_24h }}%</p>
