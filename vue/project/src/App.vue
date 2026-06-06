@@ -1,7 +1,4 @@
 <template>
-  <h1>Crypto Dashboard</h1>
-  <p>Projekt wykonany przez Kamila Pawłowskiego w ramach przedmiotu Aplikacje Kliencie i Serwerowe.</p>
-
   <router-view />
 
   <div id="left"></div>
@@ -11,7 +8,7 @@
 <style>
 :root {
   --green: #d5fbe0;
-  --yellow: rgb(248, 248, 233);
+  --yellow: #FBF9F5;
 }
 
 body {

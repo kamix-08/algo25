@@ -165,16 +165,112 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-    <h1>{{ route.params.id }}</h1>
+    <div class="heading">
+        <h1>{{ route.params.id }}</h1>
+        <router-link to="/">Go back <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/></svg></router-link>
+    </div>
 
-    <input type="checkbox" v-model="daily" id="daily">
-    <label for="daily">Daily</label>
-
-    <div id="silders" v-if="daily" ref="slider"></div>
-    <input type="datetime-local" v-else v-model="from">
+    <div class="man">
+        <p>Chart time management: </p>
+        <div class="segmented-control">
+            <input type="radio" id="overall" name="timeOption" value="24h+" checked>
+            <label for="overall">24h+</label>
+            <input type="radio" id="daily" v-model="daily" name="timeOption" value="24h">
+            <label for="daily">24h</label>
+        </div>
+        <!-- <input type="checkbox" v-model="daily" id="daily">
+        <label for="daily">Daily</label> -->
+        <div id="silders" v-if="daily" ref="slider"></div>
+        <input type="datetime-local" v-else v-model="from" class="dateInp">
+    </div>
 
     <canvas ref="chartCanvas"></canvas>
 </template>
 
 <style scoped>
+
+    .segmented-control {
+        display: inline-flex;
+        background: rgba(75, 192, 192, 0.15);
+        border-radius: 10px;
+        padding: 2px;
+        font-family: sans-serif;
+        margin-bottom: 50px;
+        width: 126.5px;
+    }
+
+    .segmented-control input {
+        display: none;
+    }
+
+    .segmented-control label {
+        padding: 8px 16px;
+        cursor: pointer;
+        border-radius: 8px;
+        color: #555;
+        transition: all 0.2s ease;
+        user-select: none;
+    }
+
+    .segmented-control input:checked + label {
+        background: #fff;
+        color: #000;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+
+    canvas{
+        margin: 30px 0;
+    }
+
+    .dateInp{
+        background-color: white;
+        border: 2px solid rgba(75, 192, 192, 0.5);
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    input{
+        width: fit-content;
+    }
+
+    .man{
+        display: flex;
+        flex-direction: column;
+    }
+
+    a{
+        text-decoration: none;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        width: 100px;
+        gap: 5px;
+        color: rgba(75, 192, 192, 1);
+        border: 2px solid rgba(75, 192, 192, 0.5);
+        padding: 5px;
+        border-radius: 7.5px;
+
+        transition: all 250ms ease-out;
+
+        &:hover {
+            box-shadow: 1px 2px 7.5px 0 rgba(0, 0, 0, 0.2);
+            background-color: rgba(75, 192, 192, 0.75);
+            color: white;
+            transform: scale(1.01);
+        }
+
+        &:active{
+            transform: scale(0.98);
+        }
+    }
+
+    .heading{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 60vw;
+    }
+
 </style>
