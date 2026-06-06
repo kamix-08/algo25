@@ -7,12 +7,12 @@
 
 <style>
 :root {
-  --green: #d5fbe0;
-  --yellow: #FBF9F5;
+  --accent: #c2fdd3;
+  --bg: #f7f7f7;
 }
 
 body {
-  background-color: var(--yellow);
+  background-color: var(--bg);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -33,12 +33,12 @@ h1, p {
 }
 
 #left {
-  background: linear-gradient(to right, var(--green), transparent);
+  background: linear-gradient(to right, var(--accent), transparent);
   left: 0;
 }
 
 #right {
-  background: linear-gradient(to left, var(--green), transparent);
+  background: linear-gradient(to left, var(--accent), transparent);
   right: 0;
 }
 </style>
