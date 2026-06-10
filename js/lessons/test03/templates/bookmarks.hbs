@@ -1,0 +1,32 @@
+<table>
+    <tr>
+        <th>Tytuł</th>
+        <th>URL</th>
+        <th>Opis</th>
+        <th>Akcja</th>
+    </tr>
+
+    {{#each bookmarks}}
+        <tr>
+            <td>{{this.title}}</td>
+            <td><a href="{{this.url}}" target="_blank">{{this.url}}</a></td>
+            <td>{{this.description}}</td>
+            <td>
+                <form method="post" action="/delete/{{this.id}}"><button type="submit">Usuń</button></form>
+            </td>
+        </tr>
+    {{/each}}
+</table>
+
+<form action="/bookmarks" method="post">
+    <label for="title">Tytuł:</label>
+    <input type="text" name="title" required>
+
+    <label for="url">URL:</label>
+    <input type="type" name="url" required>
+
+    <label for="desc">Opis:</label>
+    <textarea name="desc"></textarea>
+
+    <button type="submit">Dodaj</button>
+</form>
