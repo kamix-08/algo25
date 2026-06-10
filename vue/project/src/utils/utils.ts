@@ -7,5 +7,5 @@ export const formatPrice = (price: number): string => {
         suffixIndex++
     }
 
-    return `\$${price.toFixed(2)}${suffixes[suffixIndex]}`
+    return `\$${price?.toFixed(2)}${suffixes[suffixIndex]}`
 }

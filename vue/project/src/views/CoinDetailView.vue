@@ -215,7 +215,7 @@ onBeforeUnmount(() => {
             </div>
         
             <div id="sliders" v-if="daily" ref="slider"></div>
-            <input type="datetime-local" v-else v-model="from" class="dateInp">
+            <input type="datetime-local" v-else :value="from" @input="event => from = (event.target as HTMLInputElement).value" class="dateInp">
         </div>
         <canvas ref="chartCanvas"></canvas>
     </main>
