@@ -20,12 +20,12 @@ void bfs(int x, int y) {
         q.pop();
 
         for (int i = 0; i < 4; i++) {
-            int nx = (cy + dx[i] + n) % n;
-            int ny = (cx + dy[i] + m) % m;
+            int nx = (cx + dx[i] + n) % n;
+            int ny = (cy + dy[i] + m) % m;
 
-            if (map[ny][nx] == '1') {
-                q.push({ny, nx});
-                map[ny][nx] = '0';
+            if (map[nx][ny] == '1') {
+                q.push({nx, ny});
+                map[nx][ny] = '0';
             }
         }
     }
@@ -40,13 +40,13 @@ int main()
     cin >> n >> m;
     int total = 0;
     
-    map.resize(m, vector<char>(n));
-    for (int i=0; i<m; i++)
-        for (int j=0; j<n; j++)
+    map.resize(n, vector<char>(m));
+    for (int i=0; i<n; i++)
+        for (int j=0; j<m; j++)
             cin >> map[i][j];
 
-    for (int i=0; i<m; i++)
-        for (int j=0; j<n; j++)
+    for (int i=0; i<n; i++)
+        for (int j=0; j<m; j++)
             if (map[i][j] == '1') {
                 bfs(i, j);
                 total++;
